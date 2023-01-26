@@ -1,4 +1,4 @@
-package ru.auchan.backend.model.mapper;
+package ru.auchan.backend.transform;
 
 import ru.auchan.backend.controller.shared.request.TemplateRequest;
 import ru.auchan.backend.controller.shared.response.TemplateResponse;

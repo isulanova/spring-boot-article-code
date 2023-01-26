@@ -2,8 +2,6 @@ package ru.auchan.backend.service.embedded.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,11 +14,10 @@ import ru.auchan.backend.controller.shared.response.PageableResponse;
 import ru.auchan.backend.controller.shared.response.TemplateResponse;
 import ru.auchan.backend.io.entity.TemplateEntity;
 import ru.auchan.backend.io.repository.TemplateRepo;
-import ru.auchan.backend.model.mapper.ITemplateMapper;
+import ru.auchan.backend.transform.ITemplateMapper;
 import ru.auchan.backend.service.embedded.ITemplateService;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

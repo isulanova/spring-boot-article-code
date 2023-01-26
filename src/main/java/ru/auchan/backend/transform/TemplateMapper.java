@@ -1,4 +1,4 @@
-package ru.auchan.backend.model.mapper;
+package ru.auchan.backend.transform;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
