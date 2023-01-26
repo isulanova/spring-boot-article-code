@@ -1,0 +1,45 @@
+package ru.auchan.backend.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+import ru.auchan.backend.controller.metadata.TemplateControllerMetadata;
+import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
+import ru.auchan.backend.controller.shared.request.TemplateRequest;
+import ru.auchan.backend.controller.shared.response.PageableResponse;
+import ru.auchan.backend.controller.shared.response.TemplateResponse;
+import ru.auchan.backend.service.embedded.ITemplateService;
+
+import java.util.UUID;
+
+@RestController
+@RequiredArgsConstructor
+public class TemplateController implements TemplateControllerMetadata {
+
+    private final ITemplateService templateService;
+
+    @Override
+    public ResponseEntity<TemplateResponse> add(TemplateRequest request) {
+        return ResponseEntity.ok(templateService.add(request));
+    }
+
+    @Override
+    public void removeById(UUID itemId) {
+        templateService.removeById(itemId);
+    }
+
+    @Override
+    public ResponseEntity<TemplateResponse> update(UUID id, TemplateRequest request) {
+        return ResponseEntity.ok(templateService.update(id, request));
+    }
+
+    @Override
+    public ResponseEntity<TemplateResponse> findById(UUID itemId) {
+        return ResponseEntity.ok(templateService.findById(itemId));
+    }
+
+    @Override
+    public PageableResponse<TemplateResponse> findAll(TemplatePageableRequest request) {
+        return templateService.findAll(request);
+    }
+}
