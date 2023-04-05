@@ -1,4 +1,4 @@
-package ru.auchan.backend.exception;
+package ru.auchan.backend.config.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

@@ -14,7 +14,7 @@ import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
 import ru.auchan.backend.controller.shared.request.TemplateRequest;
 import ru.auchan.backend.controller.shared.response.PageableResponse;
 import ru.auchan.backend.controller.shared.response.TemplateResponse;
-import ru.auchan.backend.exception.ApiError;
+import ru.auchan.backend.config.exception.ApiError;
 
 import javax.validation.Valid;
 import java.util.UUID;

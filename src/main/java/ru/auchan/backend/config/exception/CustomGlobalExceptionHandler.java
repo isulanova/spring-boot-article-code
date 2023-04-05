@@ -1,4 +1,4 @@
-package ru.auchan.backend.exception;
+package ru.auchan.backend.config.exception;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
