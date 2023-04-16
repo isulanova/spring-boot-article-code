@@ -1,5 +1,7 @@
 package ru.auchan.backend.controller.metadata;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,152 +9,100 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.UUID;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.auchan.backend.config.openapi.annotations.ApiErrorResponses;
+import ru.auchan.backend.config.openapi.responses.TemplatePageableResponse;
 import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
 import ru.auchan.backend.controller.shared.request.TemplateRequest;
 import ru.auchan.backend.controller.shared.response.PageableResponse;
 import ru.auchan.backend.controller.shared.response.TemplateResponse;
-import ru.auchan.backend.config.exception.ApiError;
 
-import javax.validation.Valid;
-import java.util.UUID;
-
-@Tag(
-        name = "Template API",
-        description = "API Description")
-@RequestMapping("/template")
+@Tag(name = "[TEMPLATE] Template API", description = "API Description")
+@RequestMapping("/api/template")
 public interface TemplateControllerMetadata {
 
-    @Operation(summary = "Add item description")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "201",
-                            description = "Запись создана",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = TemplateResponse.class))
-                            }
-                    ),
-                    @ApiResponse(responseCode = "400", description = "Неверный аргумент"),
-                    @ApiResponse(responseCode = "401", description = "Требуется авторизация"),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Внутренняя ошибка сервера",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ApiError.class))
-                            }
-                    )
+  @Operation(summary = "Add item description")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "201",
+            description = "Success",
+            content = {
+              @Content(
+                  mediaType = APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = TemplateResponse.class))
             })
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping
-    ResponseEntity<TemplateResponse> add(@Valid @RequestBody TemplateRequest request);
+      })
+  @ApiErrorResponses
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  @PostMapping(value = "/v1", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<TemplateResponse> add(@Valid @RequestBody TemplateRequest request);
 
-    @Operation(summary = "Delete item description")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "204", description = "Запись удалена"),
-                    @ApiResponse(responseCode = "400", description = "Неверный аргумент"),
-                    @ApiResponse(responseCode = "401", description = "Требуется авторизация"),
-                    @ApiResponse(responseCode = "404", description = "Запись не найдена"),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Внутренняя ошибка сервера",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ApiError.class))
-                            }
-                    )
+  @Operation(summary = "Delete item description")
+  @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Success")})
+  @ApiErrorResponses
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(value = "/v1/{itemId}")
+  void removeById(@PathVariable("itemId") @NotNull UUID itemId);
+
+  @Operation(summary = "Update item description")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "202",
+            description = "Success",
+            content = {
+              @Content(
+                  mediaType = APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = TemplateResponse.class))
             })
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{itemId}")
-    void removeById(@PathVariable("itemId") UUID itemId);
+      })
+  @ApiErrorResponses
+  @PutMapping(
+      value = "/v1/{itemId}",
+      consumes = APPLICATION_JSON_VALUE,
+      produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<TemplateResponse> update(
+      @PathVariable("itemId") UUID id, @Valid @RequestBody TemplateRequest request);
 
-    @Operation(summary = "Update item description")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "202",
-                            description = "Изменения приняты",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = TemplateResponse.class))
-                            }),
-                    @ApiResponse(responseCode = "400", description = "Неверный аргумент"),
-                    @ApiResponse(responseCode = "401", description = "Требуется авторизация"),
-                    @ApiResponse(responseCode = "404", description = "Запись не найдена"),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Внутренняя ошибка сервера",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ApiError.class))
-                            }
-                    )
+  @Operation(summary = "Find by id description")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Success",
+            content = {
+              @Content(
+                  mediaType = APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = TemplateResponse.class))
             })
-    @PutMapping("/{itemId}")
-    ResponseEntity<TemplateResponse> update(
-            @PathVariable("itemId") UUID id,
-            @Valid @RequestBody TemplateRequest request);
+      })
+  @ApiErrorResponses
+  @GetMapping(value = "/v1/{itemId}", produces = APPLICATION_JSON_VALUE)
+  ResponseEntity<TemplateResponse> findById(@PathVariable("itemId") UUID itemId);
 
-
-    @Operation(summary = "Find by id description")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Запись найдена",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = TemplateResponse.class))
-                            }),
-                    @ApiResponse(responseCode = "400", description = "Неверный аргумент"),
-                    @ApiResponse(responseCode = "401", description = "Требуется авторизация"),
-                    @ApiResponse(responseCode = "404", description = "Запись не найдена"),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Внутренняя ошибка сервера",
-                            content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ApiError.class))
-                            }
-                    )
+  @Operation(summary = "Find with pageable and filters description")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Success",
+            content = {
+              @Content(
+                  array =
+                      @ArraySchema(
+                          schema = @Schema(implementation = TemplatePageableResponse.class)))
             })
-    @GetMapping("/{itemId}")
-    ResponseEntity<TemplateResponse> findById(@PathVariable("itemId") UUID itemId);
-
-    @Operation( summary = "Find with pageable and filters description")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Список сформирован", content = {
-                            @Content(
-                                    array = @ArraySchema(
-                                            schema = @Schema(implementation = TemplateResponse.class)))
-                    }),
-                    @ApiResponse(responseCode = "400", description = "Неверный аргумент"),
-                    @ApiResponse(responseCode = "401", description = "Требуется авторизация"),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Внутренняя ошибка сервера",
-                            content = {
-                                    @Content (
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ApiError.class)
-                                    )
-                            }
-                        )
-                    }
-                )
-    @PostMapping("/list")
-    PageableResponse<TemplateResponse> findAll(@Valid @RequestBody TemplatePageableRequest request);
+      })
+  @ApiErrorResponses
+  @PostMapping(
+      value = "/v1/list",
+      consumes = APPLICATION_JSON_VALUE,
+      produces = APPLICATION_JSON_VALUE)
+  PageableResponse<TemplateResponse> findAll(@Valid @RequestBody TemplatePageableRequest request);
 }

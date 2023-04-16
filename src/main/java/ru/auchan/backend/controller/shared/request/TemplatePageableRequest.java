@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Поисковый запрос с пагинацией")
+@Schema(title = "[TEMPLATE] Template pageable request")
 public class TemplatePageableRequest extends PageableRequest {
 
+    @Schema(description = "Filters")
     @JsonProperty("filters")
-    @Schema(description = "Набор поисковых фильтров")
     private TemplateRequestSearchFilters filters;
 
     @Override
