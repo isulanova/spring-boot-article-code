@@ -1,6 +1,5 @@
 package ru.auchan.backend.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.output.MigrateResult;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class RunAfterStartup {
 
   private final ApplicationContext context;
-
 
   @EventListener(ApplicationReadyEvent.class)
   public void runAfterStartup() {

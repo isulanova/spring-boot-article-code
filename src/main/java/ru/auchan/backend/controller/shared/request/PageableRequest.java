@@ -2,10 +2,9 @@ package ru.auchan.backend.controller.shared.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import javax.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.Min;
 
 @Getter
 @Setter

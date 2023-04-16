@@ -1,13 +1,12 @@
 package ru.auchan.backend.io.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
-import javax.persistence.*;
-import java.util.Date;
 
 @MappedSuperclass
 @Getter

@@ -9,11 +9,10 @@ import org.springframework.boot.actuate.health.Health;
  */
 public interface DiscoveryClientHealthIndicator {
 
-    String getName();
+  String getName();
 
-    /**
-     * @return An indication of health.
-     */
-    Health healthCheck();
-
+  /**
+   * @return An indication of health.
+   */
+  Health healthCheck();
 }

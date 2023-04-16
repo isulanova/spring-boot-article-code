@@ -12,12 +12,12 @@ import lombok.Setter;
 @Schema(title = "[TEMPLATE] Template pageable request")
 public class TemplatePageableRequest extends PageableRequest {
 
-    @Schema(description = "Filters")
-    @JsonProperty("filters")
-    private TemplateRequestSearchFilters filters;
+  @Schema(description = "Filters")
+  @JsonProperty("filters")
+  private TemplateRequestSearchFilters filters;
 
-    @Override
-    public String toString() {
-        return "{" + "filters=" + filters + '}';
-    }
+  @Override
+  public String toString() {
+    return "{" + "filters=" + filters + '}';
+  }
 }
