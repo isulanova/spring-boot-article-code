@@ -3,6 +3,7 @@ package ru.auchan.backend.controller;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.metadata.TemplateControllerMetadata;
 import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
@@ -11,6 +12,7 @@ import ru.auchan.backend.controller.shared.response.PageableResponse;
 import ru.auchan.backend.controller.shared.response.TemplateResponse;
 import ru.auchan.backend.service.embedded.ITemplateService;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class TemplateController implements TemplateControllerMetadata {
