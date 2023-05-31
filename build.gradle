@@ -1,0 +1,102 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.6'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    id "org.sonarqube" version "4.0.0.2929"
+}
+
+group = 'ru.auchan'
+project.version = calculatedVersion();
+description = 'msp2-backend-service-template'
+java.sourceCompatibility = JavaVersion.VERSION_11
+java.targetCompatibility = JavaVersion.VERSION_11
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven {
+        url 'http://lnxru0240vg217:8081/repository/gradle-group/'
+        allowInsecureProtocol = true
+    }
+}
+
+ext {
+    set('springCloudVersion', "2021.0.7")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    // CORE
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // DISCOVERY
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    // JPA
+    implementation 'org.flywaydb:flyway-core:9.16.0'
+    implementation 'org.postgresql:postgresql:42.5.4'
+    implementation 'redis.clients:jedis:3.9.0'
+    // MONITORING
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-core'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
+    // UTIL
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            additional = [
+                    'name'       : project.getDescription(),
+                    'description': project.getDescription(),
+                    'version'    : project.getVersion(),
+                    'java'       : java.getTargetCompatibility(),
+                    'time'       : generateBuildTimestamp()
+            ]
+        }
+    }
+}
+
+jar {
+    enabled = false
+}
+
+gitProperties {
+    keys = ['git.branch','git.commit.user.email']
+}
+
+static String generateBuildTimestamp() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    return LocalDateTime.now().format(formatter);
+}
+
+static String calculatedVersion() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY.M");
+    var date = LocalDateTime.now().format(formatter);
+    return Calendar.WEEK_OF_MONTH > 2
+            ?  date + '.Q2'
+            :  date + '.Q1'
+}
