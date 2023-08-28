@@ -18,21 +18,21 @@ import ru.auchan.backend.config.metrics.config.MonitoringConfigProperties;
 @RequiredArgsConstructor
 public class CpuHealthIndicator extends AbstractHealthIndicator {
 
-  private final MonitoringConfigProperties monitoringConfigProperties;
   private static final String CPU_LOAD = "cpuLoad";
+  private final MonitoringConfigProperties monitoringConfigProperties;
 
   @Override
-  protected void doHealthCheck(Health.Builder builder) {
+  protected void doHealthCheck(final Health.Builder builder) {
     try {
-      BigDecimal cpuLoad = getProcessCpuLoad();
+      final BigDecimal cpuLoad = getProcessCpuLoad();
       builder.status(resolveCpuUsageStatus(cpuLoad)).withDetail(CPU_LOAD, cpuLoad).build();
-    } catch (Exception ex) {
+    } catch (final Exception ex) {
       log.error("Error while collect application CPU metrics." + "Message: {}", ex.getMessage());
       builder.status(new Status(Status.UNKNOWN.getCode())).build();
     }
   }
 
-  private Status resolveCpuUsageStatus(BigDecimal usedCpuPercent) {
+  private Status resolveCpuUsageStatus(final BigDecimal usedCpuPercent) {
     if (isNormal(usedCpuPercent)) {
       return new Status(HealthStatus.OK.name());
     }
@@ -47,25 +47,26 @@ public class CpuHealthIndicator extends AbstractHealthIndicator {
     return new Status(Status.UNKNOWN.getCode());
   }
 
-  private boolean isNormal(BigDecimal usedCpuPercent) {
+  private boolean isNormal(final BigDecimal usedCpuPercent) {
     return usedCpuPercent.compareTo(monitoringConfigProperties.getNormalCpuLevelPercent()) < 0;
   }
 
-  private boolean isWarn(BigDecimal usedCpuPercent) {
+  private boolean isWarn(final BigDecimal usedCpuPercent) {
     return usedCpuPercent.compareTo(monitoringConfigProperties.getNormalCpuLevelPercent()) > 0
         && usedCpuPercent.compareTo(monitoringConfigProperties.getFatalCpuLevelPercent()) < 0;
   }
 
-  private boolean isFatal(BigDecimal usedCpuPercent) {
+  private boolean isFatal(final BigDecimal usedCpuPercent) {
     return usedCpuPercent.compareTo(monitoringConfigProperties.getFatalCpuLevelPercent()) > 0;
   }
 
   private BigDecimal getProcessCpuLoad() {
-    OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+    final OperatingSystemMXBean osBean =
+        ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
     return transformToPercentUsage(osBean);
   }
 
-  private BigDecimal transformToPercentUsage(OperatingSystemMXBean osBean) {
+  private BigDecimal transformToPercentUsage(final OperatingSystemMXBean osBean) {
     return BigDecimal.valueOf(osBean.getProcessCpuLoad() * 100).setScale(2, RoundingMode.HALF_UP);
   }
 }

@@ -26,24 +26,24 @@ public class DiscoveryHealthIndicator extends AbstractHealthIndicator
 
   private final DiscoveryClientHealthIndicatorProperties properties;
 
-  private AtomicBoolean discoveryInitialized = new AtomicBoolean(false);
+  private final AtomicBoolean discoveryInitialized = new AtomicBoolean(false);
 
-  private int order = Ordered.HIGHEST_PRECEDENCE;
+  private final int order = Ordered.HIGHEST_PRECEDENCE;
 
   @Override
-  public void onApplicationEvent(InstanceRegisteredEvent<?> event) {
+  public void onApplicationEvent(final InstanceRegisteredEvent<?> event) {
     if (this.discoveryInitialized.compareAndSet(false, true)) {
-      this.log.debug("Discovery Client has been initialized");
+      DiscoveryHealthIndicator.log.debug("Discovery Client has been initialized");
     }
   }
 
   @Override
   public Health healthCheck() {
-    Health.Builder builder = new Health.Builder();
+    final Health.Builder builder = new Health.Builder();
 
     if (this.discoveryInitialized.get()) {
       try {
-        DiscoveryClient client = this.discoveryClient.getIfAvailable();
+        final DiscoveryClient client = this.discoveryClient.getIfAvailable();
 
         if (properties.isUseServicesQuery()) {
           builder.status(new Status(HealthStatus.OK.name()));
@@ -51,8 +51,8 @@ public class DiscoveryHealthIndicator extends AbstractHealthIndicator
           client.probe();
           builder.status(new Status(HealthStatus.OK.name()));
         }
-      } catch (Exception e) {
-        this.log.error("Error", e);
+      } catch (final Exception e) {
+        DiscoveryHealthIndicator.log.error("Error", e);
         builder.status(new Status(HealthStatus.FATAL.name()));
       }
     } else {
@@ -72,7 +72,7 @@ public class DiscoveryHealthIndicator extends AbstractHealthIndicator
   }
 
   @Override
-  protected void doHealthCheck(Health.Builder builder) {
+  protected void doHealthCheck(final Health.Builder builder) {
     builder.status(healthCheck().getStatus()).withDetails(healthCheck().getDetails()).build();
   }
 }

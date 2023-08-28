@@ -1,6 +1,6 @@
 package ru.auchan.backend.config.metrics.config;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.health.HealthContributorRegistry;
 import org.springframework.stereotype.Component;
@@ -36,13 +36,10 @@ public class MetricsRegistry {
   }
 
   private void unregisterAllContributors() {
-    registry.forEach(
-        contributor -> {
-          unregisterContributor(contributor.getName());
-        });
+    registry.forEach(contributor -> unregisterContributor(contributor.getName()));
   }
 
-  private void unregisterContributor(String name) {
+  private void unregisterContributor(final String name) {
     registry.unregisterContributor(name);
   }
 }

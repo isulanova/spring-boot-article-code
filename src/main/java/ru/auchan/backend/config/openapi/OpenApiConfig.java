@@ -2,7 +2,14 @@ package ru.auchan.backend.config.openapi;
 
 import static io.swagger.v3.oas.models.PathItem.HttpMethod.*;
 import static java.util.Objects.isNull;
-import static ru.auchan.backend.config.openapi.DefinitionStatus.*;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.ACCEPTED_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.BAD_REQUEST_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.CREATED_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.INTERNAL_SERVER_ERROR_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.NOT_FOUND_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.NO_CONTENT_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.OK_DEF;
+import static ru.auchan.backend.config.openapi.DefinitionStatus.UNAUTHORIZED_DEF;
 
 import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.oas.models.Components;
@@ -21,7 +28,11 @@ import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import ru.auchan.backend.config.openapi.responses.*;
+import ru.auchan.backend.config.openapi.responses.ApiError400;
+import ru.auchan.backend.config.openapi.responses.ApiError401;
+import ru.auchan.backend.config.openapi.responses.ApiError404;
+import ru.auchan.backend.config.openapi.responses.ApiError409;
+import ru.auchan.backend.config.openapi.responses.ApiError500;
 
 @Slf4j
 @Configuration

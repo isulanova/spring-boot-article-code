@@ -2,9 +2,9 @@ package ru.auchan.backend.io.specification;
 
 import static java.util.Objects.isNull;
 
+import jakarta.persistence.criteria.Predicate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import javax.persistence.criteria.Predicate;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import ru.auchan.backend.controller.shared.request.TemplateRequestSearchFilters;

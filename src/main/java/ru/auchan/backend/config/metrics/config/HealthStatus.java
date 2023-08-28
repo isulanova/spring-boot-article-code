@@ -4,5 +4,5 @@ public enum HealthStatus {
   OK,
   WARN,
   FATAL,
-  UNKNOWN;
+  UNKNOWN
 }

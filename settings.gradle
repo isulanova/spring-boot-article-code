@@ -10,4 +10,5 @@ pluginManagement {
     }
 }
 
+// todo rename
 rootProject.name = 'msp2-backend-service-template'

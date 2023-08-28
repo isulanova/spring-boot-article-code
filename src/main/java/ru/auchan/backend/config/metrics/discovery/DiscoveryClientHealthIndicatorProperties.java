@@ -4,6 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 /**
+ * DiscoveryClientHealthIndicatorProperties.
+ *
  * @author Spencer Gibb
  */
 @ConfigurationProperties("spring.cloud.discovery.client.health-indicator")
@@ -11,7 +13,7 @@ public class DiscoveryClientHealthIndicatorProperties {
 
   private boolean enabled = true;
 
-  private boolean includeDescription = false;
+  private boolean includeDescription;
 
   /**
    * Whether or not the indicator should use {@link DiscoveryClient#getServices} to check its
@@ -25,7 +27,7 @@ public class DiscoveryClientHealthIndicatorProperties {
     return this.enabled;
   }
 
-  public void setEnabled(boolean enabled) {
+  public void setEnabled(final boolean enabled) {
     this.enabled = enabled;
   }
 
@@ -33,7 +35,7 @@ public class DiscoveryClientHealthIndicatorProperties {
     return this.includeDescription;
   }
 
-  public void setIncludeDescription(boolean includeDescription) {
+  public void setIncludeDescription(final boolean includeDescription) {
     this.includeDescription = includeDescription;
   }
 
@@ -41,7 +43,7 @@ public class DiscoveryClientHealthIndicatorProperties {
     return useServicesQuery;
   }
 
-  public void setUseServicesQuery(boolean useServicesQuery) {
+  public void setUseServicesQuery(final boolean useServicesQuery) {
     this.useServicesQuery = useServicesQuery;
   }
 

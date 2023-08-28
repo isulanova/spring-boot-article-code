@@ -2,9 +2,9 @@ package ru.auchan.backend.service.embedded.impl;
 
 import static ru.auchan.backend.io.specification.TemplateEntitySpecification.getSpecification;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.UUID;
-import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

@@ -1,15 +1,16 @@
 package ru.auchan.backend.io.entity.base;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @MappedSuperclass
 @Getter
@@ -19,7 +20,7 @@ public class BaseEntity extends EntityChangeEventFields {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Type(type = "pg-uuid")
+  @JdbcTypeCode(SqlTypes.UUID)
   private UUID id;
 
   @Override

@@ -12,6 +12,8 @@ public interface DiscoveryClientHealthIndicator {
   String getName();
 
   /**
+   * Perform health check.
+   *
    * @return An indication of health.
    */
   Health healthCheck();

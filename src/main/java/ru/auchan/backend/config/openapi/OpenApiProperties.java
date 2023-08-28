@@ -3,10 +3,8 @@ package ru.auchan.backend.config.openapi;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "openapi")
-@ConstructorBinding
 @AllArgsConstructor
 @Getter
 public class OpenApiProperties {

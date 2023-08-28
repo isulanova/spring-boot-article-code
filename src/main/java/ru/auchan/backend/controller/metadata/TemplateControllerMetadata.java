@@ -9,14 +9,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.auchan.backend.config.openapi.annotations.ApiErrorResponses;
-import ru.auchan.backend.config.openapi.responses.TemplatePageableResponse;
 import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
 import ru.auchan.backend.controller.shared.request.TemplateRequest;
 import ru.auchan.backend.controller.shared.response.PageableResponse;
@@ -94,9 +93,7 @@ public interface TemplateControllerMetadata {
             description = "Success",
             content = {
               @Content(
-                  array =
-                      @ArraySchema(
-                          schema = @Schema(implementation = TemplatePageableResponse.class)))
+                  array = @ArraySchema(schema = @Schema(implementation = PageableResponse.class)))
             })
       })
   @ApiErrorResponses
