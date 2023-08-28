@@ -21,16 +21,18 @@ import ru.auchan.backend.config.openapi.responses.ApiError500;
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<Object> handle(ConstraintViolationException constraintViolationException) {
-    Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
-    List<String> details = new ArrayList<>();
+  public ResponseEntity<Object> handle(
+      final ConstraintViolationException constraintViolationException) {
+    final Set<ConstraintViolation<?>> violations =
+        constraintViolationException.getConstraintViolations();
+    final List<String> details = new ArrayList<>();
     if (!violations.isEmpty()) {
       violations.forEach(violation -> details.add(violation.getMessage()));
     } else {
       details.add("ConstraintViolationException occurred");
     }
 
-    ApiError400 err =
+    final ApiError400 err =
         new ApiError400(
             LocalDateTime.now(),
             HttpStatus.BAD_REQUEST,
@@ -41,15 +43,15 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     return ResponseEntityBuilder.build(err);
   }
 
-  @ExceptionHandler({Exception.class})
-  public ResponseEntity<Object> handleAll(Exception ex) {
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<Object> handleAll(final Exception ex) {
 
-    List<String> details = new ArrayList<>();
+    final List<String> details = new ArrayList<>();
     details.add(ex.getLocalizedMessage());
 
-    var responseStatusAnnotation = ex.getClass().getAnnotation(ResponseStatus.class);
+    final var responseStatusAnnotation = ex.getClass().getAnnotation(ResponseStatus.class);
 
-    ApiError500 err =
+    final ApiError500 err =
         new ApiError500(
             LocalDateTime.now(),
             isNull(responseStatusAnnotation)

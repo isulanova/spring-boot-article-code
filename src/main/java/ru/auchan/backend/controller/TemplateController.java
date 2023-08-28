@@ -20,27 +20,27 @@ public class TemplateController implements TemplateControllerMetadata {
   private final ITemplateService templateService;
 
   @Override
-  public ResponseEntity<TemplateResponse> add(TemplateRequest request) {
+  public ResponseEntity<TemplateResponse> add(final TemplateRequest request) {
     return ResponseEntity.ok(templateService.add(request));
   }
 
   @Override
-  public void removeById(UUID itemId) {
+  public void removeById(final UUID itemId) {
     templateService.removeById(itemId);
   }
 
   @Override
-  public ResponseEntity<TemplateResponse> update(UUID id, TemplateRequest request) {
+  public ResponseEntity<TemplateResponse> update(final UUID id, final TemplateRequest request) {
     return ResponseEntity.ok(templateService.update(id, request));
   }
 
   @Override
-  public ResponseEntity<TemplateResponse> findById(UUID itemId) {
+  public ResponseEntity<TemplateResponse> findById(final UUID itemId) {
     return ResponseEntity.ok(templateService.findById(itemId));
   }
 
   @Override
-  public PageableResponse<TemplateResponse> findAll(TemplatePageableRequest request) {
+  public PageableResponse<TemplateResponse> findAll(final TemplatePageableRequest request) {
     return templateService.findAll(request);
   }
 }

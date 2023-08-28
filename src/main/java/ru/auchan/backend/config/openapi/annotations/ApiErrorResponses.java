@@ -33,4 +33,6 @@ import java.lang.annotation.Target;
           responseCode = "500",
           content = @Content(mediaType = "application/json", schema = @Schema(ref = "ApiError500")))
     })
-public @interface ApiErrorResponses {}
+public @interface ApiErrorResponses {
+  // annotation
+}

@@ -16,27 +16,27 @@ public class TemplateMapper implements ITemplateMapper {
 
   private final ModelMapper modelMapper;
 
-  public TemplateModel fromEntityToModel(TemplateEntity entity) {
+  public TemplateModel fromEntityToModel(final TemplateEntity entity) {
     return modelMapper.map(entity, TemplateModel.class);
   }
 
-  public TemplateEntity fromModelToEntity(TemplateModel model) {
+  public TemplateEntity fromModelToEntity(final TemplateModel model) {
     return modelMapper.map(model, TemplateEntity.class);
   }
 
-  public TemplateResponse fromModelToResponse(TemplateModel model) {
+  public TemplateResponse fromModelToResponse(final TemplateModel model) {
     return modelMapper.map(model, TemplateResponse.class);
   }
 
-  public TemplateModel fromRequestToModel(TemplateRequest request) {
+  public TemplateModel fromRequestToModel(final TemplateRequest request) {
     return modelMapper.map(request, TemplateModel.class);
   }
 
-  public List<TemplateModel> fromListEntityToListModel(List<TemplateEntity> entityList) {
+  public List<TemplateModel> fromListEntityToListModel(final List<TemplateEntity> entityList) {
     return modelMapper.map(entityList, new TypeToken<List<TemplateModel>>() {}.getType());
   }
 
-  public List<TemplateResponse> fromListModelToListResponse(List<TemplateModel> modelList) {
+  public List<TemplateResponse> fromListModelToListResponse(final List<TemplateModel> modelList) {
     return modelMapper.map(modelList, new TypeToken<List<TemplateResponse>>() {}.getType());
   }
 }

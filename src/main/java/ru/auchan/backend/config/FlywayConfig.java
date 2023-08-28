@@ -25,8 +25,8 @@ public class FlywayConfig {
   private static final String FLYWAY_SCHEMA_PLACEHOLDER = "spring.flyway.placeholders.schema";
 
   @Bean("migration")
-  public Flyway flyway(Environment env) {
-    String schema = env.getRequiredProperty(FLYWAY_SCHEMA);
+  public Flyway flyway(final Environment env) {
+    final String schema = env.getRequiredProperty(FLYWAY_SCHEMA);
     return new Flyway(
         Flyway.configure()
             .baselineOnMigrate(true)
@@ -45,7 +45,7 @@ public class FlywayConfig {
             .defaultSchema(schema));
   }
 
-  private String[] resolveLocations(String locationString) {
+  private String[] resolveLocations(final String locationString) {
     return locationString.split(",");
   }
 }

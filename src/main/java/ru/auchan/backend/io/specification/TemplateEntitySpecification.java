@@ -5,19 +5,21 @@ import static java.util.Objects.isNull;
 import jakarta.persistence.criteria.Predicate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import ru.auchan.backend.controller.shared.request.TemplateRequestSearchFilters;
 import ru.auchan.backend.io.entity.TemplateEntity;
 
-@NoArgsConstructor
-public class TemplateEntitySpecification {
+public final class TemplateEntitySpecification {
+
+  private TemplateEntitySpecification() {
+    // new instance denied
+  }
 
   public static Specification<TemplateEntity> getSpecification(
-      TemplateRequestSearchFilters filter) {
+      final TemplateRequestSearchFilters filter) {
 
     return (root, query, builder) -> {
-      PredicateBuilder<TemplateEntity> predicateBuilder =
+      final PredicateBuilder<TemplateEntity> predicateBuilder =
           PredicateBuilder.<TemplateEntity>builder()
               .entityRoot(root)
               .predicates(new ArrayList<>())
@@ -34,5 +36,7 @@ public class TemplateEntitySpecification {
   }
 
   private static void fillPredicates(
-      PredicateBuilder predicateBuilder, TemplateRequestSearchFilters filter) {}
+      final PredicateBuilder predicateBuilder, final TemplateRequestSearchFilters filter) {
+    // some code here
+  }
 }

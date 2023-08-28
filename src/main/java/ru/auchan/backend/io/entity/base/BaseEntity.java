@@ -23,20 +23,24 @@ public class BaseEntity extends EntityChangeEventFields {
   @JdbcTypeCode(SqlTypes.UUID)
   private UUID id;
 
+  public BaseEntity(final UUID id) {
+    this.id = id;
+  }
+
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    BaseEntity that = (BaseEntity) o;
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final BaseEntity that = (BaseEntity) o;
     return id.equals(that.id);
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(id);
-  }
-
-  public BaseEntity(UUID id) {
-    this.id = id;
   }
 }

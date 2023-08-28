@@ -12,11 +12,11 @@ public enum DefinitionStatus {
 
   final String status;
 
-  public String getStatus() {
-    return status;
+  DefinitionStatus(final String status) {
+    this.status = status;
   }
 
-  DefinitionStatus(String status) {
-    this.status = status;
+  public String getStatus() {
+    return status;
   }
 }

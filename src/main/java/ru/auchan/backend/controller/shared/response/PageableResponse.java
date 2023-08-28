@@ -16,10 +16,12 @@ public class PageableResponse<T> {
   long totalItems;
   int totalPages;
 
-  public PageableResponse() {}
+  public PageableResponse() {
+    // empty constructor
+  }
 
   public PageableResponse(
-      int currentPage, int pageSize, long totalItems, int totalPages, List<T> data) {
+          final int currentPage, final int pageSize, final long totalItems, final int totalPages, final List<T> data) {
     this.currentPage = currentPage;
     this.pageSize = pageSize;
     this.totalItems = totalItems;
@@ -27,7 +29,7 @@ public class PageableResponse<T> {
     this.data = data;
   }
 
-  public PageableResponse(Page<T> page) {
+  public PageableResponse(final Page<T> page) {
     this.currentPage = page.getNumber();
     this.pageSize = page.getSize();
     this.totalItems = page.getTotalElements();

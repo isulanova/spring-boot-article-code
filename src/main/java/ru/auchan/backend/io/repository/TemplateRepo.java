@@ -8,4 +8,6 @@ import ru.auchan.backend.io.entity.TemplateEntity;
 
 @Repository
 public interface TemplateRepo
-    extends JpaRepository<TemplateEntity, UUID>, JpaSpecificationExecutor<TemplateEntity> {}
+    extends JpaRepository<TemplateEntity, UUID>, JpaSpecificationExecutor<TemplateEntity> {
+    // repository
+}
