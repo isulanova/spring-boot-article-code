@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.auchan.backend.config.openapi.annotations.ApiErrorResponses;
 import ru.auchan.backend.controller.shared.request.TemplatePageableRequest;
 import ru.auchan.backend.controller.shared.request.TemplateRequest;
 import ru.auchan.backend.controller.shared.response.PageableResponse;
@@ -44,14 +43,12 @@ public interface TemplateControllerMetadata {
                   schema = @Schema(implementation = TemplateResponse.class))
             })
       })
-  @ApiErrorResponses
   @ResponseStatus(HttpStatus.ACCEPTED)
   @PostMapping(value = "/v1", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   ResponseEntity<TemplateResponse> add(@Valid @RequestBody TemplateRequest request);
 
   @Operation(summary = "Delete item description")
   @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Success")})
-  @ApiErrorResponses
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping(value = "/v1/{itemId}")
   void removeById(@PathVariable("itemId") @NotNull UUID itemId);
@@ -68,7 +65,6 @@ public interface TemplateControllerMetadata {
                   schema = @Schema(implementation = TemplateResponse.class))
             })
       })
-  @ApiErrorResponses
   @PutMapping(
       value = "/v1/{itemId}",
       consumes = APPLICATION_JSON_VALUE,
@@ -88,7 +84,6 @@ public interface TemplateControllerMetadata {
                   schema = @Schema(implementation = TemplateResponse.class))
             })
       })
-  @ApiErrorResponses
   @GetMapping(value = "/v1/{itemId}", produces = APPLICATION_JSON_VALUE)
   ResponseEntity<TemplateResponse> findById(@PathVariable("itemId") UUID itemId);
 
@@ -103,7 +98,6 @@ public interface TemplateControllerMetadata {
                   array = @ArraySchema(schema = @Schema(implementation = PageableResponse.class)))
             })
       })
-  @ApiErrorResponses
   @PostMapping(
       value = "/v1/list",
       consumes = APPLICATION_JSON_VALUE,

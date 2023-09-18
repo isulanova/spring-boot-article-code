@@ -9,7 +9,7 @@ plugins {
     /* build info */
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
     /* static analysis */
-    id "ru.auchan.codestyle" version "1.2.5"
+    id "ru.auchan.codestyle" version "1.2.6"
 }
 
 // ======= artifact data =============================================================
@@ -47,7 +47,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // DISCOVERY
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
@@ -56,17 +55,14 @@ dependencies {
     // JPA
     implementation 'org.flywaydb:flyway-core:9.16.0'
     implementation 'org.postgresql:postgresql:42.5.4'
-    implementation 'redis.clients:jedis:4.4.0'
-    // MONITORING
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.micrometer:micrometer-core'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-    implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
     // UTIL
     implementation 'org.modelmapper:modelmapper:3.1.1'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    // SWAGGER
+    implementation 'ru.auchan.msp.modules:openapi:1.0.0'
+    // MONITORING
+    implementation 'ru.auchan.msp.modules:metrics:1.0.0'
 }
 
 // ======= build ===================================================================
