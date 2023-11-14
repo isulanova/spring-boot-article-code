@@ -1,35 +1,16 @@
-variables:
-  # BASE
-  SERVICE_NAME: $CI_PROJECT_NAME
-  GIT_STRATEGY: clone
-  PROJECT_NAME: msp2
-
-stages:
-  - generator
-  - executor
-
-gen-jobs:
-  stage: generator
-  tags:
-    - shell
-  script:
-    - git clone https://$CONFIG_REPO_TOKEN_NAME:$CONFIG_REPO_TOKEN@gitlab.ru.auchan.com/enterprise-development-team/msp2/ci-cd/msp2-deploy-scripts.git
-    - mkdir pipelines
-    - cp $CI_PROJECT_DIR/msp2-deploy-scripts/pipelines/$CI_PROJECT_NAME/jobs/$CI_PROJECT_NAME.yml $CI_PROJECT_DIR/pipelines/$CI_PROJECT_NAME.yml
-    - cat $CI_PROJECT_DIR/pipelines/$CI_PROJECT_NAME.yml > $CI_PROJECT_NAME.yml
-  artifacts:
-    paths: [ '$CI_PROJECT_NAME.yml']
-    expire_in: 5 min
-
-exec-build-job:
-  stage: executor
-  needs:
-    - job: gen-jobs
-      artifacts: true
-  trigger:
-    include:
-      - artifact: $CI_PROJECT_NAME.yml
-        job: gen-jobs
-    strategy: depend
-  variables:
-    CI_PIPELINE_IID: $CI_PIPELINE_IID
+include:
+  - project: 'enterprise-development-team/msp2/ci-cd/swarm/ci-cd-templates'
+    ref: 'dev'
+    file: '/templates/Microservice.gitlab-ci.yml'
+    rules:
+      - if: "$CI_COMMIT_REF_NAME =~ /dev|msp2-dev|devops-dev-msp/"
+  - project: 'enterprise-development-team/msp2/ci-cd/swarm/ci-cd-templates'
+    ref: 'uat'
+    file: '/templates/Microservice.gitlab-ci.yml'
+    rules:
+      - if: "$CI_COMMIT_REF_NAME =~ /(uat|msp2-uat)/"
+  - project: 'enterprise-development-team/msp2/ci-cd/swarm/ci-cd-templates'
+    ref: 'prod'
+    file: '/templates/Microservice.gitlab-ci.yml'
+    rules:
+      - if: "$CI_COMMIT_REF_NAME =~ /(prod|msp2-prod)/"
