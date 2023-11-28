@@ -60,9 +60,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     // SWAGGER
-    implementation 'ru.auchan.msp.modules:openapi:1.0.1'
+    implementation 'ru.auchan.msp.modules:openapi:+'
     // MONITORING
-    implementation 'ru.auchan.msp.modules:metrics:1.0.0'
+    implementation 'ru.auchan.msp.modules:metrics:+'
 }
 
 // ======= build ===================================================================
