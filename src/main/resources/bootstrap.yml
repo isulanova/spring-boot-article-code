@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: ${SERVICE_NAME:nr-ui-admin-bff-service}
+    cloud:
+        config:
+            uri: ${CONFIG_URL:https://gitlab-ci.ru.auchan.com/zg/config}
+    profiles:
+        active: ${PROFILE:dev}
