@@ -1,6 +1,6 @@
 spring:
     application:
-        name: ${SERVICE_NAME:nr-ui-admin-bff-service}
+        name: ${SERVICE_NAME:nr-role-service}
     cloud:
         config:
             uri: ${CONFIG_URL:https://gitlab-ci.ru.auchan.com/zg/config}
