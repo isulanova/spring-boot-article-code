@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.auchan.backend.io.entity.AuthUserEntity;
 import ru.auchan.backend.io.entity.base.BaseEntity;
-import ru.auchan.backend.io.entity.relations.RoleFunctionRelationEntity;
-import ru.auchan.backend.io.entity.relations.RoleGroupRelationEntity;
 import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
-import ru.auchan.backend.io.entity.relations.RoleModuleRelationEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,15 +37,4 @@ public class RoleEntity extends BaseEntity {
     @OneToMany(mappedBy = "role")
     private Set<RoleModelRelationEntity> model = new HashSet<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "role")
-    private Set<RoleFunctionRelationEntity> functions = new HashSet<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "role")
-    private Set<RoleGroupRelationEntity> groups = new HashSet<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "role")
-    private Set<RoleModuleRelationEntity> modules = new HashSet<>();
 }
