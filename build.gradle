@@ -12,7 +12,7 @@ plugins {
 // ======= artifact data =============================================================
 group = 'ru.auchan'
 project.version = calculatedVersion();
-description = 'nr-role-service'
+description = 'nl-role-service'
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
