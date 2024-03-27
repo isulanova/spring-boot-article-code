@@ -1,6 +1,7 @@
 package ru.auchan.backend.io.entity.role;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import ru.auchan.backend.io.entity.relations.RoleGroupRelationEntity;
 
 @Getter
 @Setter
+@Entity
 @Table(name = "system_group")
 public class GroupEntity extends BaseEntity {
 
