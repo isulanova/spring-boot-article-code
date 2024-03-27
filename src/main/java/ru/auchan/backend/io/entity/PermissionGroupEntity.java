@@ -20,7 +20,7 @@ import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
 @Table(name = "system_permission_group")
 public class PermissionGroupEntity extends BaseEntity implements Serializable {
 
-  @Column(name = "system_name", unique = true, nullable = false)
+  @Column(name = "name", unique = true, nullable = false)
   private String name;
 
   @Column(name = "description", nullable = false)
