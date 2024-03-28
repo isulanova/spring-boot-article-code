@@ -1,4 +1,4 @@
-package ru.auchan.backend.service.exception;
+package ru.auchan.backend.service.permission.exception;
 
 import java.util.UUID;
 import org.springframework.http.HttpStatus;

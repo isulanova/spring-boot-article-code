@@ -1,8 +1,7 @@
-package ru.auchan.backend.service;
+package ru.auchan.backend.service.permission.impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,14 +9,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.auchan.backend.controller.shared.request.permission.PermissionItemRequest;
-import ru.auchan.backend.controller.shared.response.permission.PermissionItemResponse;
+import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
+import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 import ru.auchan.backend.io.entity.PermissionEntity;
 import ru.auchan.backend.io.projection.PermissionProj;
 import ru.auchan.backend.io.repository.PermissionRepo;
 import ru.auchan.backend.model.Permission;
-import ru.auchan.backend.service.exception.PermissionAlreadyExistsException;
-import ru.auchan.backend.service.exception.PermissionNotFoundException;
+import ru.auchan.backend.service.permission.IPermissionService;
+import ru.auchan.backend.service.permission.exception.PermissionAlreadyExistsException;
+import ru.auchan.backend.service.permission.exception.PermissionNotFoundException;
 
 @Slf4j
 @Service
@@ -48,57 +48,45 @@ public class PermissionService implements IPermissionService {
   }
 
   @Override
-  public Optional<Permission> findByIdDb(final UUID id) {
-    return permissionRepo.findById(id).map(item -> mapper.map(mapper, Permission.class));
-  }
-
-  @Override
   public Optional<Permission> findBySystemName(final String permissionName) {
-    return permissionRepo.findBySystemName(permissionName).map(item -> mapper.map(mapper, Permission.class));
-  }
-
-  @Override
-  public Set<String> findByRoleIds(final List<UUID> roleIds) {
-    return permissionRepo.findByRoleIds(roleIds);
+    return permissionRepo
+        .findBySystemName(permissionName)
+        .map(item -> mapper.map(mapper, Permission.class));
   }
 
   @Override
   public Optional<PermissionItemResponse> addPermission(final PermissionItemRequest itemRequest) {
     log.info("Trying to create permission with params: {}", itemRequest);
-    final Optional<Permission> permissionFromDb =
-        permissionRepo.findBySystemName(itemRequest.getSystemName()).map(item -> mapper.map(mapper, Permission.class));;
+    final Optional<Permission> permissionFromDb = findBySystemName(itemRequest.getSystemName());
     if (permissionFromDb.isPresent()) {
       log.error("Permission: {} already exists", itemRequest.getSystemName());
       throw new PermissionAlreadyExistsException(itemRequest.getSystemName());
     }
     final PermissionEntity persistentEntity =
-        permissionRepo.save(mapper.map(
-            new Permission(
-                itemRequest.getSystemName(),
-                itemRequest.getUiName(),
-                itemRequest.getDescription()), PermissionEntity.class));
+        permissionRepo.save(
+            mapper.map(
+                new Permission(
+                    itemRequest.getSystemName(),
+                    itemRequest.getUiName(),
+                    itemRequest.getDescription()),
+                PermissionEntity.class));
     return findById(persistentEntity.getId());
   }
 
   @Override
-  public boolean removePermission(final UUID id) {
+  public void removePermission(final UUID id) {
     final Optional<PermissionProj> permissionFromDb = permissionRepo.findByIdentifier(id);
     if (permissionFromDb.isEmpty()) {
       log.error("Permission with id: {} not found", id);
       throw new PermissionNotFoundException(id);
     }
     permissionRepo.deleteById(id);
-    return !permissionRepo.existsById(id);
   }
 
   @Override
   public Optional<PermissionItemResponse> findById(final UUID uuid) {
     final Optional<PermissionProj> projOptional = permissionRepo.findByIdentifier(uuid);
-    if (projOptional.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return Optional.of(PermissionItemResponse.fromProjection(projOptional.get()));
+    return projOptional.map(PermissionItemResponse::fromProjection);
   }
 
   @Override

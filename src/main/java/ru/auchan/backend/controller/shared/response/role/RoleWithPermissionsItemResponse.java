@@ -6,7 +6,7 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import ru.auchan.backend.controller.shared.response.permission.PermissionItemResponse;
+import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 
 @Getter
 @Setter

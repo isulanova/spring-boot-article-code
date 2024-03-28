@@ -1,4 +1,4 @@
-package ru.auchan.backend.controller;
+package ru.auchan.backend.controller.permission;
 
 import static java.util.Objects.isNull;
 import static ru.auchan.backend.controller.util.RestControllerUtil.createResponseMap;
@@ -17,11 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import ru.auchan.backend.controller.metadata.PermissionControllerMetadata;
+import ru.auchan.backend.controller.permission.metadata.PermissionControllerMetadata;
+import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
+import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 import ru.auchan.backend.controller.shared.ListWrapper;
-import ru.auchan.backend.controller.shared.request.permission.PermissionItemRequest;
-import ru.auchan.backend.controller.shared.response.permission.PermissionItemResponse;
-import ru.auchan.backend.service.IPermissionService;
+import ru.auchan.backend.service.permission.IPermissionService;
 
 @RestController
 @RequiredArgsConstructor
@@ -73,13 +73,9 @@ public class PermissionController implements PermissionControllerMetadata {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
   }
 
-  public ResponseEntity<String> deletePermission(final UUID id) {
-    final boolean deleteResult = permissionService.removePermission(id);
-    if (deleteResult) {
-      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    } else {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public ResponseEntity<Void> deletePermission(final UUID id) {
+    permissionService.removePermission(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   public ResponseEntity<PermissionItemResponse> update(

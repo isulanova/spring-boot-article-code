@@ -1,4 +1,4 @@
-package ru.auchan.backend.controller.metadata;
+package ru.auchan.backend.controller.permission.metadata;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +19,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
+import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 import ru.auchan.backend.controller.shared.ListWrapper;
-import ru.auchan.backend.controller.shared.request.permission.PermissionItemRequest;
-import ru.auchan.backend.controller.shared.response.permission.PermissionItemResponse;
-
-
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 @Tag(name = "[PERMISSION] Permission API", description = "Privilege Management API")
-@RequestMapping(value = "/api/permission")
+@RequestMapping(value = "/api/permissions")
 public interface PermissionControllerMetadata {
 
   @Operation(summary = "Getting a list of privileges available in the system [Pagination]")
@@ -116,7 +114,7 @@ public interface PermissionControllerMetadata {
             })
       })
   @DeleteMapping("/v1/{id}")
-  ResponseEntity<String> deletePermission(@PathVariable("id") UUID id);
+  ResponseEntity<Void> deletePermission(@PathVariable("id") UUID id);
 
   @Operation(summary = "Change permission data")
   @ApiResponses(

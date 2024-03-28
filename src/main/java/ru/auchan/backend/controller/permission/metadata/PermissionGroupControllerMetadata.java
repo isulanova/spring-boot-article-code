@@ -24,7 +24,7 @@ import ru.auchan.backend.controller.permission.shared.response.PermissionGroupRe
 @Tag(
     name = "[PERMISSION-GROUP] Permission group API",
     description = "Privilege Group Management API")
-@RequestMapping(value = "/api/permission-group")
+@RequestMapping(value = "/api/permission-groups")
 public interface PermissionGroupControllerMetadata {
 
   @Operation(summary = "Getting a list of privilege groups available in the system")

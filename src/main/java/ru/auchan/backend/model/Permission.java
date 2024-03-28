@@ -3,11 +3,13 @@ package ru.auchan.backend.model;
 import java.time.LocalDate;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.auchan.backend.io.entity.base.DbRowStatus;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Permission {
 
   private UUID id;
