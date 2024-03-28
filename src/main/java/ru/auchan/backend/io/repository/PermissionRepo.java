@@ -11,23 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.auchan.backend.io.entity.PermissionEntity;
-import ru.auchan.backend.io.projection.PermissionProj;
 
 @Repository
 public interface PermissionRepo extends JpaRepository<PermissionEntity, UUID> {
 
-  @Query(
-      value =
-          """
-            SELECT
-              id\\:\\:text,
-              system_name,
-              ui_name,
-              description
-            FROM {h-schema}system_permission
-            ORDER BY system_name""",
-      nativeQuery = true)
-  Page<PermissionProj> getPermissionListProj(Pageable pageable);
+  Page<PermissionEntity> findAll(Pageable pageable);
 
   Optional<PermissionEntity> findBySystemName(String name);
 
@@ -58,7 +46,7 @@ public interface PermissionRepo extends JpaRepository<PermissionEntity, UUID> {
             FROM {h-schema}system_permission
             WHERE id=:id""",
       nativeQuery = true)
-  Optional<PermissionProj> findByIdentifier(@Param("id") UUID id);
+  Optional<PermissionEntity> findByIdentifier(@Param("id") UUID id);
 
   @Query(
       value =

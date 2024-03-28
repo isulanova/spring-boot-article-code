@@ -23,15 +23,29 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.auchan.backend.controller.util.ListWrapper;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
 import ru.auchan.backend.controller.user.shared.response.UpdatedUserRoleServiceResponse;
+import ru.auchan.backend.controller.util.ListWrapper;
 
 @Tag(name = "[USER] User API", description = "User Management API")
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/api/users")
 public interface UserRestControllerMetadata {
+  @Operation(summary = "Adding a user")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "201",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = AuthUserItemWithRolesResponse.class))
+            })
+      })
+  @PostMapping("/v1")
+  ResponseEntity<AuthUserItemWithRolesResponse> addUser(
+      @Valid @RequestBody UserCreateRequest userCreateRequest);
 
   @Operation(summary = "Getting a list of users by a list of role IDs")
   @ApiResponses(
@@ -90,23 +104,6 @@ public interface UserRestControllerMetadata {
   @PostMapping("/v1/keycloak/list")
   ResponseEntity<List<AuthUserItemWithRolesResponse>> findByKeycloakIdList(
       @RequestBody ListWrapper<UUID> uuidList);
-
-  @Operation(summary = "Adding a user")
-  @ApiResponses(
-      value = {
-        @ApiResponse(
-            responseCode = "201",
-            content = {
-              @Content(
-                  mediaType = "application/json",
-                  schema = @Schema(implementation = AuthUserItemWithRolesResponse.class))
-            })
-      })
-  @PostMapping("/v1")
-  ResponseEntity<AuthUserItemWithRolesResponse> addUser(
-      @Valid @RequestBody UserCreateRequest userCreateRequest);
-
-
 
   @Operation(summary = "User update")
   @ApiResponses(

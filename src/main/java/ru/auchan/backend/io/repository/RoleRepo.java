@@ -9,17 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.auchan.backend.io.entity.role.RoleEntity;
-import ru.auchan.backend.io.projection.RoleByKeycloakIdProj;
-import ru.auchan.backend.io.projection.RoleProj;
-import ru.auchan.backend.io.projection.RoleProjSimple;
 
 @Repository
 public interface RoleRepo extends JpaRepository<RoleEntity, UUID> {
 
-
   Optional<RoleEntity> findBySystemName(String systemName);
-
-
 
   @Query(
       value =
@@ -33,8 +27,6 @@ public interface RoleRepo extends JpaRepository<RoleEntity, UUID> {
               group by users.keycloak_id""",
       nativeQuery = true)
   List<RoleEntity> findByKeycloakId(@Param("id") UUID id);
-
-
 
   Set<RoleEntity> findBySystemNameIn(Set<String> roleNames);
 }

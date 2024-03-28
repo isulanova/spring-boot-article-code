@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 import ru.auchan.backend.io.entity.PermissionEntity;
-import ru.auchan.backend.io.projection.PermissionProj;
 import ru.auchan.backend.io.repository.PermissionRepo;
-import ru.auchan.backend.service.permission.model.Permission;
 import ru.auchan.backend.service.permission.IPermissionService;
 import ru.auchan.backend.service.permission.exception.PermissionAlreadyExistsException;
 import ru.auchan.backend.service.permission.exception.PermissionNotFoundException;
+import ru.auchan.backend.service.permission.model.Permission;
 
 @Slf4j
 @Service
@@ -29,8 +28,8 @@ public class PermissionService implements IPermissionService {
   @Override
   public Page<PermissionItemResponse> list(final Pageable pageable) {
     return permissionRepo
-        .getPermissionListProj(pageable)
-        .map(PermissionItemResponse::fromProjection);
+        .findAll(pageable)
+        .map(item -> mapper.map(item, PermissionItemResponse.class));
   }
 
   @Override
@@ -75,7 +74,7 @@ public class PermissionService implements IPermissionService {
 
   @Override
   public void removePermission(final UUID id) {
-    final Optional<PermissionProj> permissionFromDb = permissionRepo.findByIdentifier(id);
+    final Optional<PermissionEntity> permissionFromDb = permissionRepo.findByIdentifier(id);
     if (permissionFromDb.isEmpty()) {
       log.error("Permission with id: {} not found", id);
       throw new PermissionNotFoundException(id);
@@ -85,8 +84,8 @@ public class PermissionService implements IPermissionService {
 
   @Override
   public Optional<PermissionItemResponse> findById(final UUID uuid) {
-    final Optional<PermissionProj> projOptional = permissionRepo.findByIdentifier(uuid);
-    return projOptional.map(PermissionItemResponse::fromProjection);
+    final Optional<PermissionEntity> projOptional = permissionRepo.findByIdentifier(uuid);
+    return projOptional.map(item -> mapper.map(item, PermissionItemResponse.class));
   }
 
   @Override

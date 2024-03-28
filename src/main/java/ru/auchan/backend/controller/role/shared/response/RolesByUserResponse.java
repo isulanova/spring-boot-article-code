@@ -5,11 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import ru.auchan.backend.io.projection.RoleByKeycloakIdProj;
 
 @Setter
 @Getter
@@ -22,11 +20,4 @@ public class RolesByUserResponse implements Serializable {
 
   @JsonProperty("roles")
   private List<RoleSimpleItemResponse> roles;
-
-  public static RolesByUserResponse fromProjection(final RoleByKeycloakIdProj proj) {
-    return RolesByUserResponse.builder()
-            .keycloakId(UUID.fromString(proj.getId()))
-            .roles(proj.getRoles())
-            .build();
-  }
 }
