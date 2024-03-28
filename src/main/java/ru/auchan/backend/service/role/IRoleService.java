@@ -9,7 +9,7 @@ import ru.auchan.backend.controller.role.shared.response.RoleItemAdminResponse;
 import ru.auchan.backend.controller.role.shared.response.RoleItemResponse;
 import ru.auchan.backend.controller.role.shared.response.RoleWithPermissionsItemResponse;
 import ru.auchan.backend.controller.role.shared.response.RolesByUserResponse;
-import ru.auchan.backend.model.Role;
+import ru.auchan.backend.service.role.model.Role;
 
 public interface IRoleService {
 

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
-import ru.auchan.backend.model.Permission;
+import ru.auchan.backend.service.permission.model.Permission;
 
 public interface IPermissionService {
 

@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.auchan.backend.controller.shared.request.view.RoleModelUpdatePermissionRequest;
+import ru.auchan.backend.controller.role.shared.request.view.RoleModelUpdatePermissionRequest;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.view.RoleModelResponse;
 import ru.auchan.backend.service.role.IRoleModelService;

@@ -14,7 +14,7 @@ import ru.auchan.backend.controller.permission.shared.response.PermissionItemRes
 import ru.auchan.backend.io.entity.PermissionEntity;
 import ru.auchan.backend.io.projection.PermissionProj;
 import ru.auchan.backend.io.repository.PermissionRepo;
-import ru.auchan.backend.model.Permission;
+import ru.auchan.backend.service.permission.model.Permission;
 import ru.auchan.backend.service.permission.IPermissionService;
 import ru.auchan.backend.service.permission.exception.PermissionAlreadyExistsException;
 import ru.auchan.backend.service.permission.exception.PermissionNotFoundException;

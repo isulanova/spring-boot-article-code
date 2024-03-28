@@ -20,7 +20,7 @@ import ru.auchan.backend.controller.role.shared.response.RolesByUserResponse;
 import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
 import ru.auchan.backend.io.entity.role.RoleEntity;
 import ru.auchan.backend.io.repository.RoleRepo;
-import ru.auchan.backend.model.Role;
+import ru.auchan.backend.service.role.model.Role;
 import ru.auchan.backend.service.role.IRoleService;
 import ru.auchan.backend.service.role.exception.RoleAlreadyExistsException;
 import ru.auchan.backend.service.role.exception.RoleNotFoundException;

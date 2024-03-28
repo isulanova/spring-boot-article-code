@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.auchan.backend.controller.shared.request.view.RoleModelUpdatePermissionRequest;
+import ru.auchan.backend.controller.role.shared.request.view.RoleModelUpdatePermissionRequest;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.view.RoleModelResponse;
 

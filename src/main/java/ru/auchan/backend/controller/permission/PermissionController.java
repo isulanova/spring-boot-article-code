@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.permission.metadata.PermissionControllerMetadata;
 import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
-import ru.auchan.backend.controller.shared.ListWrapper;
+import ru.auchan.backend.controller.util.ListWrapper;
 import ru.auchan.backend.service.permission.IPermissionService;
 
 @RestController

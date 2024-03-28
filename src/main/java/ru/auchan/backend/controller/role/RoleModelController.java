@@ -5,12 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.role.metadata.RoleModelControllerMetadata;
-import ru.auchan.backend.controller.shared.request.view.RoleModelUpdatePermissionRequest;
+import ru.auchan.backend.controller.role.shared.request.view.RoleModelUpdatePermissionRequest;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.view.RoleModelResponse;
-import ru.auchan.backend.service.IAuthUserService;
+import ru.auchan.backend.service.user.IAuthUserService;
 import ru.auchan.backend.service.role.IRoleModelService;
-import ru.auchan.backend.service.IUIService;
+import ru.auchan.backend.service.access.IUIService;
 
 
 import java.util.ArrayList;

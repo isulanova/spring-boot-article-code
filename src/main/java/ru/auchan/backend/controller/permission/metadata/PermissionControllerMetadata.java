@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
-import ru.auchan.backend.controller.shared.ListWrapper;
+import ru.auchan.backend.controller.util.ListWrapper;
 
 @Tag(name = "[PERMISSION] Permission API", description = "Privilege Management API")
 @RequestMapping(value = "/api/permissions")
