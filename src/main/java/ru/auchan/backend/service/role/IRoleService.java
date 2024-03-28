@@ -4,19 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import ru.auchan.backend.controller.shared.request.role.RoleItemRequest;
-import ru.auchan.backend.controller.shared.response.role.RoleItemAdminResponse;
-import ru.auchan.backend.controller.shared.response.role.RoleItemBySystemNameResponse;
-import ru.auchan.backend.controller.shared.response.role.RoleItemResponse;
-import ru.auchan.backend.controller.shared.response.role.RoleWithPermissionsItemResponse;
-import ru.auchan.backend.controller.shared.response.role.RolesByUserResponse;
+import ru.auchan.backend.controller.role.shared.request.RoleItemRequest;
+import ru.auchan.backend.controller.role.shared.response.RoleItemAdminResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleWithPermissionsItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RolesByUserResponse;
 import ru.auchan.backend.model.Role;
 
 public interface IRoleService {
 
-  List<RoleItemAdminResponse> findRoleItemResponseData();
-
-  List<RoleItemAdminResponse> findRoleItemResponseDataFromCache();
+  List<RoleItemAdminResponse> getRoleList();
 
   Optional<RolesByUserResponse> getRoleListByKeycloakId(UUID keycloakId);
 

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-import ru.auchan.backend.controller.shared.response.role.RoleItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleItemResponse;
 
 @Getter
 @Setter

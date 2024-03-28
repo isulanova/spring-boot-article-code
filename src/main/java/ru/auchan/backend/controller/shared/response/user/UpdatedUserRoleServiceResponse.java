@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-import ru.auchan.backend.controller.shared.response.role.RoleSimpleItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 
 @Getter
 @Setter

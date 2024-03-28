@@ -25,7 +25,7 @@ public class RoleEntity extends BaseEntity {
     private String systemName;
 
     @Column(name = "ui_name", unique = true, nullable = false)
-    private String uiName;
+    private String name;
 
     @Column(name = "description")
     private String description;

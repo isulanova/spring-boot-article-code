@@ -2,7 +2,7 @@ package ru.auchan.backend.io.projection;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
-import ru.auchan.backend.controller.shared.response.role.RoleSimpleItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 
 public interface RoleByKeycloakIdProj {
 
