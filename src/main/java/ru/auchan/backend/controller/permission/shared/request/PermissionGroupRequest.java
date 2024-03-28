@@ -1,4 +1,4 @@
-package ru.auchan.backend.controller.shared.request;
+package ru.auchan.backend.controller.permission.shared.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -22,4 +22,19 @@ public class PermissionGroupRequest {
   @JsonProperty("alias")
   @NotEmpty(message = "Please provide a alias (alias)")
   private String alias;
+
+  @Override
+  public String toString() {
+    return "{"
+        + "name='"
+        + name
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", alias='"
+        + alias
+        + '\''
+        + '}';
+  }
 }

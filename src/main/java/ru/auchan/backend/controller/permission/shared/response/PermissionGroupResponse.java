@@ -1,4 +1,4 @@
-package ru.auchan.backend.controller.shared.response;
+package ru.auchan.backend.controller.permission.shared.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +23,5 @@ public class PermissionGroupResponse {
 
   @JsonProperty("alias")
   private String alias;
-
 
 }
