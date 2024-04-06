@@ -29,7 +29,7 @@ public class RoleModelRelationEntity extends BaseEntity {
   private RoleEntity role;
 
   @ManyToOne
-  @JoinColumn(name = "permission_group_system_name", referencedColumnName = "name")
+  @JoinColumn(name = "permission_group_name", referencedColumnName = "name")
   private PermissionGroupEntity permissionGroup;
 
   @ManyToOne

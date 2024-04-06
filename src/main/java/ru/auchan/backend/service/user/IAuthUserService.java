@@ -1,16 +1,15 @@
 package ru.auchan.backend.service.user;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
 import ru.auchan.backend.controller.user.shared.response.UpdatedUserRoleServiceResponse;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 public interface IAuthUserService {
 
@@ -19,9 +18,6 @@ public interface IAuthUserService {
   List<AuthUserItemWithRolesResponse> findByKeycloakIdList(List<UUID> uuidList);
 
   Optional<AuthUserItemWithRolesResponse> addUser(UserCreateRequest userCreateRequest);
-
-  Optional<AuthUserItemWithRolesResponse> addSupplierCandidateUser(
-      UserCreateRequest userCreateRequest);
 
   boolean removeByKeycloakId(UUID keycloakId);
 

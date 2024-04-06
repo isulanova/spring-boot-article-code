@@ -59,4 +59,14 @@ public class PermissionGroupService implements IPermissionGroupService {
         groupRepo.save(mapper.map(request, PermissionGroupEntity.class)),
         PermissionGroupResponse.class);
   }
+
+  @Override
+  public Optional<PermissionGroupEntity> findBySystemNameDb(String systemName) {
+    return groupRepo.findByName(systemName);
+  }
+
+  @Override
+  public Optional<PermissionGroupEntity> findByIdDb(UUID id) {
+    return groupRepo.findById(id);
+  }
 }

@@ -14,12 +14,12 @@ VALUES (uuid_generate_v4(), 'ADMIN', 'Супер администратор',
         'Супер администратор', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
 
 INSERT INTO system_role (id, system_name, ui_name, description, record_created, record_updated, record_status)
-VALUES (uuid_generate_v4(), 'NL_ADMIN', 'Администратор модуля Безостатка',
-        'Администратор модуля Безостатка', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
+VALUES (uuid_generate_v4(), 'NL_ADMIN', 'Администратор #БезОстатка',
+        'Администратор #БезОстатка', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
 
 INSERT INTO system_role (id, system_name, ui_name, description, record_created, record_updated, record_status)
-VALUES (uuid_generate_v4(), 'NL_STICKER', 'Стикеровщик',
-        'Стикеровщик', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
+VALUES (uuid_generate_v4(), 'NL_STICKER', 'Стикеровка',
+        'Стикеровка', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
 
 INSERT INTO system_role (id, system_name, ui_name, description, record_created, record_updated, record_status)
 VALUES (uuid_generate_v4(), 'NL_WRITE_OFF', 'Списание',

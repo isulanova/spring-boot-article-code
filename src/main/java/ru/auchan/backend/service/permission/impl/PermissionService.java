@@ -89,6 +89,11 @@ public class PermissionService implements IPermissionService {
   }
 
   @Override
+  public Optional<Permission> findByIdDb(UUID id) {
+    return permissionRepo.findById(id).map(item -> mapper.map(item, Permission.class));
+  }
+
+  @Override
   public Optional<PermissionItemResponse> updatePermission(
       final UUID id, final PermissionItemRequest itemRequest) {
     final Optional<PermissionEntity> permissionFromDbOptional = permissionRepo.findById(id);

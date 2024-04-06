@@ -21,6 +21,8 @@ public interface IPermissionService {
 
   Optional<PermissionItemResponse> findById(UUID id);
 
+  Optional<Permission> findByIdDb(UUID id);
+
   Optional<PermissionItemResponse> addPermission(PermissionItemRequest itemRequest);
 
   void removePermission(UUID id);

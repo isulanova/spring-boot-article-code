@@ -12,6 +12,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @Schema(title = "[ROLE-MODEL] role model permission response item")
 public class RoleModelPermissionResponseItem {
 

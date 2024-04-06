@@ -1,9 +1,11 @@
 package ru.auchan.backend.service.permission;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import ru.auchan.backend.controller.permission.shared.request.PermissionGroupRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionGroupResponse;
+import ru.auchan.backend.io.entity.PermissionGroupEntity;
 
 public interface IPermissionGroupService {
 
@@ -14,4 +16,8 @@ public interface IPermissionGroupService {
   void delete(UUID id);
 
   PermissionGroupResponse add(PermissionGroupRequest request);
+
+  Optional<PermissionGroupEntity> findBySystemNameDb(String systemName);
+
+  Optional<PermissionGroupEntity> findByIdDb(UUID id);
 }

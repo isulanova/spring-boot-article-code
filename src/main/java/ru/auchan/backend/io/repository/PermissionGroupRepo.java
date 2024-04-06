@@ -10,4 +10,6 @@ import ru.auchan.backend.io.entity.PermissionGroupEntity;
 public interface PermissionGroupRepo extends JpaRepository<PermissionGroupEntity, UUID> {
 
   Optional<PermissionGroupEntity> findByNameOrAlias(String name, String alias);
+
+  Optional<PermissionGroupEntity> findByName(String name);
 }

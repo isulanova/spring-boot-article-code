@@ -20,7 +20,6 @@ import ru.auchan.backend.controller.role.shared.response.RolesByUserResponse;
 import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
 import ru.auchan.backend.io.entity.role.RoleEntity;
 import ru.auchan.backend.io.repository.RoleRepo;
-import ru.auchan.backend.service.role.model.Role;
 import ru.auchan.backend.service.role.IRoleService;
 import ru.auchan.backend.service.role.exception.RoleAlreadyExistsException;
 import ru.auchan.backend.service.role.exception.RoleNotFoundException;
@@ -64,8 +63,8 @@ public class RoleService implements IRoleService {
   }
 
   @Override
-  public Optional<Role> findById(final UUID uuid) {
-    return roleRepo.findById(uuid).map(item -> mapper.map(item, Role.class));
+  public Optional<ru.auchan.backend.service.role.model.Role> findById(final UUID uuid) {
+    return roleRepo.findById(uuid).map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class));
   }
 
   @Override
@@ -80,9 +79,9 @@ public class RoleService implements IRoleService {
   }
 
   @Override
-  public Set<Role> findBySystemNameIn(final Set<String> systemNames) {
+  public Set<ru.auchan.backend.service.role.model.Role> findBySystemNameIn(final Set<String> systemNames) {
     return roleRepo.findBySystemNameIn(systemNames).stream()
-        .map(item -> mapper.map(item, Role.class))
+        .map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class))
         .collect(Collectors.toSet());
   }
 
@@ -98,7 +97,7 @@ public class RoleService implements IRoleService {
     final RoleEntity persistentEntity =
         roleRepo.save(
             mapper.map(
-                new Role(
+                new ru.auchan.backend.service.role.model.Role(
                     null,
                     roleCreationRequest.getSystemName(),
                     roleCreationRequest.getUiName(),
@@ -161,8 +160,8 @@ public class RoleService implements IRoleService {
   }
 
   @Override
-  public List<Role> findAllById(final List<UUID> uuids) {
-    return roleRepo.findAllById(uuids).stream().map(item -> mapper.map(item, Role.class)).toList();
+  public List<ru.auchan.backend.service.role.model.Role> findAllById(final List<UUID> uuids) {
+    return roleRepo.findAllById(uuids).stream().map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class)).toList();
   }
 
   private void logRoleCreationAction(
