@@ -80,11 +80,11 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      default_schema: ${app.db.name}
-      enable_lazy_load_no_trans: true
       ddl-auto: validate
     properties:
       hibernate:
+        default_schema: ${app.db.name}
+        enable_lazy_load_no_trans: true
         format_sql: true
     show-sql: false
 app:
