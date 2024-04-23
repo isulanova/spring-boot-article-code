@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: ${SERVICE_NAME:nl-role-service}
-  cloud:
-    config:
-      uri: ${CONFIG_URL:https://gitlab-ci.ru.auchan.com/nl/config}
-  profiles:
-    active: ${PROFILE:dev}

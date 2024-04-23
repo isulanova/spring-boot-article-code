@@ -1,0 +1,97 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://nl-infra-service-discovery:5015/registry/eureka}
+  instance:
+    health-check-url: http://${spring.application.name}:${eureka.instance.non-secure-port}/actuator/health
+    home-page-url: https://${spring.application.name}:${eureka.instance.non-secure-port}
+    ip-address: ${spring.application.name}
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
+    non-secure-port: ${CURRENT_PORT:5015}
+    non-secure-port-enabled: true
+    preferIpAddress: true
+    secure-health-check-url: http://${spring.application.name}:${eureka.instance.non-secure-port}/actuator/health
+    secure-port: ${CURRENT_PORT:5015}
+    secure-port-enabled: false
+    status-page-url: http://${spring.application.name}:${eureka.instance.non-secure-port}/actuator/info
+logging:
+  level:
+    com:
+      netflix:
+        discovery:
+          shared:
+            resolver:
+              aws:
+                ConfigClusterResolver: WARN
+  pattern:
+    console: '{"time": "%clr(%date{yyyy-MM-dd HH:mm:ss.SSS}){blue}", "level":
+            "%highlight(%level)", "trace": "%X{traceId:-}","span": "%X{spanId:-}",
+            "code": %clr(${info.app.code}){yellow} ,"service": %clr(${spring.application.name}){yellow},
+            "thread": "%clr(%thread){yellow}","loggerName": "%clr(%logger{0}){yellow}","message":
+            "%clr(%message"}){cyan}%n'
+server:
+  port: ${CURRENT_PORT:5015}
+spring:
+  mvc:
+    problemdetails:
+      enabled: true
+  cloud:
+    config:
+      fail-fast: true
+    discovery:
+      client:
+        health-indicator:
+          enabled: false
+  application:
+    name: ${SERVICE_NAME:nl-role-service}
+  cache:
+    type: redis
+  data:
+    redis:
+      repositories:
+        enabled: true
+  datasource:
+    password: ${app.db.password}
+    url: ${app.db.url}
+    username: ${app.db.username}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      driver-class-name: org.postgresql.Driver
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      minimum-idle: 5
+      pool-name: dev-nl-role-service-hikari
+  flyway:
+    password: ${app.db.password}
+    placeholders:
+      schema: ${app.db.name}
+    schemas: ${app.db.name}
+    url: jdbc:postgresql://${app.db.host}:${app.db.port}/${app.db.name}
+    user: ${app.db.username}
+    locations: classpath:db/migration
+    out-of-order: false
+    table: config_flyway_migration_history
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      default_schema: ${app.db.name}
+      enable_lazy_load_no_trans: true
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+app:
+  db:
+    host: asru242db820.lnx.ru.auchan.com
+    name: dev_nl_role_service
+    password: lqYl_SvLxaCBhO
+    port: 5432
+    url: jdbc:postgresql://${app.db.host}:${app.db.port}/${app.db.name}?currentSchema=${spring.jpa.properties.hibernate.default_schema}
+    username: postgres

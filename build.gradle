@@ -48,8 +48,8 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.3'
     // DISCOVERY
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     // UTIL
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
