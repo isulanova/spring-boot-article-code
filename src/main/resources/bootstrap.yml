@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ${SERVICE_NAME:nl-role-service}
+  cloud:
+    config:
+      uri: ${CONFIG_URL:https://nl-dev.ru.auchan.com/config}
+  profiles:
+    active: ${PROFILE:dev}
