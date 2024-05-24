@@ -143,7 +143,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
             select
               distinct user_id\\:\\:text
             from {h-schema}system_user_role
-            where role_id in (:roleIds) """,
+            where role_id in (:roleIds)""",
       nativeQuery = true)
   Set<UUID> findUserIdListByRoleId(@RequestParam("roleIds") List<UUID> roleIds);
 
