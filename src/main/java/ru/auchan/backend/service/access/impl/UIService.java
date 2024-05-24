@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.access.shared.request.AccessMapByPermissionGroupRequest;
 import ru.auchan.backend.controller.access.shared.request.AccessRequest;
-import ru.auchan.backend.controller.role.shared.request.view.RoleItemBase;
 import ru.auchan.backend.controller.role.shared.response.RoleItemResponse;
 import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
@@ -88,13 +86,15 @@ public class UIService implements IUIService {
     if (userFromDb.isEmpty()) {
       log.error("User with id {} not found. can't renew access map!", userId);
     } else {
-      //deleteCachedAccessMap(userId);
+      // deleteCachedAccessMap(userId);
       generateUserAccessMap(userFromDb.get());
     }
   }
 
   @Override
-  public void deleteCachedAccessMapForUsers(Set<UUID> userIds) {}
+  public void deleteCachedAccessMapForUsers(Set<UUID> userIds) {
+    // todo
+  }
 
   private UserAccessMap generateUserAccessMap(final AuthUserItemWithRolesResponse userFromDb) {
     final List<RoleItemResponse> roles = getUserRoles(userFromDb);
@@ -122,7 +122,7 @@ public class UIService implements IUIService {
         .findByRoleIn(
             roleService.findAllById(roleIds).stream()
                 .map(item -> modelMapper.map(item, RoleEntity.class))
-                .collect(Collectors.toList()))
+                .toList())
         .stream()
         .map(RoleModelRelationEntity::getPermission)
         .map(PermissionEntity::getSystemName)

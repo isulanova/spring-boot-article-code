@@ -66,7 +66,7 @@ public class RoleModelApplier implements IRoleModelApplier {
           foundElement(
               currentRoleModelByGroup.stream()
                   .map(item -> mapper.map(item, RoleModel.class))
-                  .collect(Collectors.toList()),
+                  .toList(),
               updatedRoleModelItem);
       if (!elementFromCurrentRoleModel.isPresent()) {
         appliedRoleModelItems.add(updatedRoleModelItem);

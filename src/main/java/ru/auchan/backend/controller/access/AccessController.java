@@ -26,8 +26,8 @@ public class AccessController implements AccessControllerMetadata {
 
   @Override
   public ResponseEntity<UserAccessMapResponse> renewAccessMap(final UUID userId) {
-     uiService.renewAccessMap(userId);
-     return ResponseEntity.ok().build();
+    uiService.renewAccessMap(userId);
+    return ResponseEntity.ok().build();
   }
 
   @Override

@@ -41,6 +41,16 @@ public class RoleModelUpdater implements IRoleModelUpdater {
   private final IPermissionService permissionService;
   private final ModelMapper mapper;
 
+  public static <T> Set<T> symmetricDifference(
+      final Set<? extends T> s1, final Set<? extends T> s2) {
+    final Set<T> symmetricDiff = new HashSet<>(s1);
+    symmetricDiff.addAll(s2);
+    final Set<T> tmp = new HashSet<>(s1);
+    tmp.retainAll(s2);
+    symmetricDiff.removeAll(tmp);
+    return symmetricDiff;
+  }
+
   @Override
   public Set<UUID> updatePermission(final RoleModelUpdatePermissionRequest roleModelRequest) {
     try {
@@ -170,15 +180,5 @@ public class RoleModelUpdater implements IRoleModelUpdater {
         return mapper.map(permissionGroup.get(), PermissionGroup.class);
       }
     }
-  }
-
-  public static <T> Set<T> symmetricDifference(
-      final Set<? extends T> s1, final Set<? extends T> s2) {
-    final Set<T> symmetricDiff = new HashSet<>(s1);
-    symmetricDiff.addAll(s2);
-    final Set<T> tmp = new HashSet<>(s1);
-    tmp.retainAll(s2);
-    symmetricDiff.removeAll(tmp);
-    return symmetricDiff;
   }
 }

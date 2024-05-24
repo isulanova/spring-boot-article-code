@@ -29,8 +29,8 @@ public class RoleController implements RoleControllerMetadata {
   public ResponseEntity<RoleWithPermissionsItemResponse> findBySystemName(final String systemName) {
     final var roleOptional = roleService.findBySystemName(systemName.toUpperCase());
     return roleOptional
-            .map(role -> ResponseEntity.status(HttpStatus.OK).body(role))
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        .map(role -> ResponseEntity.status(HttpStatus.OK).body(role))
+        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
   public ResponseEntity<RolesByUserResponse> roleListByKeycloakId(final UUID id) {
@@ -72,6 +72,4 @@ public class RoleController implements RoleControllerMetadata {
         .map(proj -> ResponseEntity.status(HttpStatus.ACCEPTED).body(proj))
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
-
-
 }

@@ -8,6 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,7 +25,7 @@ import ru.auchan.backend.io.entity.role.RoleEntity;
 @Setter
 @Entity
 @Table(name = "system_usr")
-public class AuthUserEntity extends EntityChangeEventFields {
+public class AuthUserEntity extends EntityChangeEventFields implements Serializable {
 
   @Id
   @Column(name = "KEYCLOAK_ID")

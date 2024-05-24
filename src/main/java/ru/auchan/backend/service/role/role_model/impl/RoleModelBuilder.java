@@ -34,6 +34,7 @@ import ru.auchan.backend.service.role.role_model.model.PermissionGroupPermission
 import ru.auchan.backend.service.role.role_model.model.PermissionRoleGroup;
 import ru.auchan.backend.service.role.role_model.model.RoleModelRaw;
 
+@SuppressWarnings("checkstyle:classdataabstractioncoupling")
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -99,7 +100,7 @@ public class RoleModelBuilder implements IRoleModelBuilder {
   }
 
   private RoleModelSystemPermission createPermissionItemSystem(final Permission p) {
-    var roleModelSystemPermission = new RoleModelSystemPermission();
+    final var roleModelSystemPermission = new RoleModelSystemPermission();
     roleModelSystemPermission.setSystemName(p.getSystemName());
     return roleModelSystemPermission;
   }

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 public final class RestControllerUtil {
   private RestControllerUtil() {
-
+    // new instance denied
   }
 
   public static Map<String, Object> createResponseMap(final Page dataPage) {

@@ -17,7 +17,7 @@ public final class ObjectMapperUtil {
   }
 
   private ObjectMapperUtil() {
-
+    // new instance denied
   }
 
   public static ObjectMapper getObjectMapperForServices() {

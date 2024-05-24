@@ -1,11 +1,10 @@
 package ru.auchan.backend.service.access;
 
+import java.util.Set;
+import java.util.UUID;
 import ru.auchan.backend.controller.access.shared.request.AccessMapByPermissionGroupRequest;
 import ru.auchan.backend.controller.access.shared.request.AccessRequest;
 import ru.auchan.backend.service.access.model.UserAccessMap;
-
-import java.util.Set;
-import java.util.UUID;
 
 public interface IUIService {
 

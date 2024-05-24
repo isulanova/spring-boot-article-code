@@ -2,6 +2,7 @@ package ru.auchan.backend.controller.permission.shared.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serializable;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import ru.auchan.backend.io.entity.PermissionEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(title = "[PERMISSION] Permission item response")
-public class PermissionItemResponse {
+public class PermissionItemResponse implements Serializable {
 
   @JsonProperty("id")
   private UUID id;

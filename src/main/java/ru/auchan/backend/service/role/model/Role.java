@@ -1,7 +1,6 @@
 package ru.auchan.backend.service.role.model;
 
 import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +19,4 @@ public class Role {
   private String name;
 
   private String description;
-
 }

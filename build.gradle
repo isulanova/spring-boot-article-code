@@ -7,6 +7,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
     /* build info */
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    /* static analysis */
+    id "ru.auchan.codestyle" version "1.2.6"
 }
 
 // ======= artifact data =============================================================
@@ -133,4 +135,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+// ======= static analysis===================================================================
+bootJar {
+    dependsOn runQualityGate
 }
