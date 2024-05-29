@@ -2,7 +2,6 @@ package ru.auchan.backend.service.role.impl;
 
 import java.util.Set;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,39 +18,39 @@ import ru.auchan.backend.service.role.role_model.IRoleModelUpdater;
 @RequiredArgsConstructor
 public class RoleModelService implements IRoleModelService {
 
-    private final IRoleModelBuilder modelBuilder;
-    private final IRoleModelApplier modelApplier;
-    private final IRoleModelUpdater modelUpdater;
+  private final IRoleModelBuilder modelBuilder;
+  private final IRoleModelApplier modelApplier;
+  private final IRoleModelUpdater modelUpdater;
 
-    //@Transactional
-    @Override
-    //@CacheEvict(value = "role_model", key = "'" + "role_model" + "'")
-    public Set<UUID> updatePermission(final RoleModelUpdatePermissionRequest roleModelRequest) {
-        final Set<UUID> affectedRoleIds = modelUpdater.updatePermission(roleModelRequest);
-        rebuildRoleModel();
-        return affectedRoleIds;
-    }
+  // @Transactional
+  @Override
+  // @CacheEvict(value = "role_model", key = "'" + "role_model" + "'")
+  public Set<UUID> updatePermission(final RoleModelUpdatePermissionRequest roleModelRequest) {
+    final Set<UUID> affectedRoleIds = modelUpdater.updatePermission(roleModelRequest);
+    rebuildRoleModel();
+    return affectedRoleIds;
+  }
 
-    @Override
-    //@Cacheable(value = "role_model", key = "'" + "role_model" + "'")
-    public RoleModelResponse getRoleModel() {
-        return modelBuilder.getRoleModelUi();
-    }
+  @Override
+  // @Cacheable(value = "role_model", key = "'" + "role_model" + "'")
+  public RoleModelResponse getRoleModel() {
+    return modelBuilder.getRoleModelUi();
+  }
 
-    @Override
-    public RoleModelSystem getRoleModelSystem() {
-        return modelBuilder.getRoleModelSystem();
-    }
+  @Override
+  public RoleModelSystem getRoleModelSystem() {
+    return modelBuilder.getRoleModelSystem();
+  }
 
-    //@Transactional
-    @Override
-    //@CacheEvict(value = "role_model", key = "'" + "role_model" + "'")
-    public void applyRoleModel(final RoleModelSystem roleModelSystem) {
-        modelApplier.applyRoleModel(roleModelSystem);
-        rebuildRoleModel();
-    }
+  // @Transactional
+  @Override
+  // @CacheEvict(value = "role_model", key = "'" + "role_model" + "'")
+  public void applyRoleModel(final RoleModelSystem roleModelSystem) {
+    modelApplier.applyRoleModel(roleModelSystem);
+    rebuildRoleModel();
+  }
 
-    private void rebuildRoleModel() {
-        modelBuilder.getRoleModelUi();
-    }
+  private void rebuildRoleModel() {
+    modelBuilder.getRoleModelUi();
+  }
 }

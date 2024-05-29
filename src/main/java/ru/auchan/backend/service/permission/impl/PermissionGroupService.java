@@ -48,7 +48,7 @@ public class PermissionGroupService implements IPermissionGroupService {
 
   @Override
   public PermissionGroupResponse add(PermissionGroupRequest request) {
-    Optional<PermissionGroupEntity> groupByNameOrAlias =
+    final Optional<PermissionGroupEntity> groupByNameOrAlias =
         groupRepo.findByNameOrAlias(request.getName(), request.getAlias());
 
     if (groupByNameOrAlias.isPresent()) {

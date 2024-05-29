@@ -1,5 +1,7 @@
 package ru.auchan.backend.controller.user;
 
+import static ru.auchan.backend.controller.util.RestControllerUtil.createResponseMap;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.user.metadata.UserRestControllerMetadata;
-import ru.auchan.backend.controller.util.ListWrapper;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
 import ru.auchan.backend.controller.user.shared.response.UpdatedUserRoleServiceResponse;
-import ru.auchan.backend.service.user.IAuthUserService;
+import ru.auchan.backend.controller.util.ListWrapper;
 import ru.auchan.backend.service.access.IUIService;
-
-import static ru.auchan.backend.controller.util.RestControllerUtil.createResponseMap;
+import ru.auchan.backend.service.user.IAuthUserService;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,8 +61,6 @@ public class UserRestController implements UserRestControllerMetadata {
         .map(authUserResponse -> ResponseEntity.status(HttpStatus.CREATED).body(authUserResponse))
         .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
   }
-
-
 
   public ResponseEntity<UpdatedUserRoleServiceResponse> update(
       final UUID id, final AuthUserUpdateRequest updateRequest) {

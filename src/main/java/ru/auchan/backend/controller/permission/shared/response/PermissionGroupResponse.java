@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 @Schema(title = "[PERMISSION-GROUP] Permission group item response")
 public class PermissionGroupResponse {
 
@@ -23,5 +22,4 @@ public class PermissionGroupResponse {
 
   @JsonProperty("alias")
   private String alias;
-
 }

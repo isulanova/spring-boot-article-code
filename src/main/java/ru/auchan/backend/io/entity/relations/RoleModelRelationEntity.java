@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ import ru.auchan.backend.io.entity.role.RoleEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "system_role_model")
-public class RoleModelRelationEntity extends BaseEntity {
+public class RoleModelRelationEntity extends BaseEntity implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "role_system_name", referencedColumnName = "system_name")

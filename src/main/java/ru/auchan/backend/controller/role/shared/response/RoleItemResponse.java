@@ -17,5 +17,4 @@ public class RoleItemResponse extends RoleSimpleItemResponse {
 
   @JsonProperty("description")
   private String description;
-
 }

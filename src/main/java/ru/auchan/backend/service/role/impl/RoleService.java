@@ -15,6 +15,7 @@ import ru.auchan.backend.controller.permission.shared.response.PermissionItemRes
 import ru.auchan.backend.controller.role.shared.request.RoleItemRequest;
 import ru.auchan.backend.controller.role.shared.response.RoleItemAdminResponse;
 import ru.auchan.backend.controller.role.shared.response.RoleItemResponse;
+import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 import ru.auchan.backend.controller.role.shared.response.RoleWithPermissionsItemResponse;
 import ru.auchan.backend.controller.role.shared.response.RolesByUserResponse;
 import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
@@ -50,11 +51,23 @@ public class RoleService implements IRoleService {
       log.error("Roles by user {} not found", keycloakId);
       return Optional.empty();
     }
-    //
-    //    final RolesByUserResponse response =
-    //        RolesByUserResponse.fromProjection(roleByKeycloakIdProj);
+
+    final var response =
+        RolesByUserResponse.builder()
+            .keycloakId(keycloakId)
+            .roles(getResponseRolesFromEntities(roleByKeycloakIdProj))
+            .build();
+
     log.info("Role list by user {} generated success", keycloakId);
-    return null;
+
+    return Optional.of(response);
+  }
+
+  private List<RoleSimpleItemResponse> getResponseRolesFromEntities(
+      final List<RoleEntity> roleEntities) {
+    return roleEntities.stream()
+        .map(entity -> new RoleSimpleItemResponse(entity.getId(), entity.getSystemName()))
+        .toList();
   }
 
   @Override
@@ -64,7 +77,9 @@ public class RoleService implements IRoleService {
 
   @Override
   public Optional<ru.auchan.backend.service.role.model.Role> findById(final UUID uuid) {
-    return roleRepo.findById(uuid).map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class));
+    return roleRepo
+        .findById(uuid)
+        .map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class));
   }
 
   @Override
@@ -79,7 +94,8 @@ public class RoleService implements IRoleService {
   }
 
   @Override
-  public Set<ru.auchan.backend.service.role.model.Role> findBySystemNameIn(final Set<String> systemNames) {
+  public Set<ru.auchan.backend.service.role.model.Role> findBySystemNameIn(
+      final Set<String> systemNames) {
     return roleRepo.findBySystemNameIn(systemNames).stream()
         .map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class))
         .collect(Collectors.toSet());
@@ -161,7 +177,9 @@ public class RoleService implements IRoleService {
 
   @Override
   public List<ru.auchan.backend.service.role.model.Role> findAllById(final List<UUID> uuids) {
-    return roleRepo.findAllById(uuids).stream().map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class)).toList();
+    return roleRepo.findAllById(uuids).stream()
+        .map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class))
+        .toList();
   }
 
   private void logRoleCreationAction(

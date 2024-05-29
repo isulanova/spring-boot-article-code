@@ -1,5 +1,8 @@
 package ru.auchan.backend.controller.role;
 
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +11,9 @@ import ru.auchan.backend.controller.role.metadata.RoleModelControllerMetadata;
 import ru.auchan.backend.controller.role.shared.request.view.RoleModelUpdatePermissionRequest;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.view.RoleModelResponse;
-import ru.auchan.backend.service.user.IAuthUserService;
-import ru.auchan.backend.service.role.IRoleModelService;
 import ru.auchan.backend.service.access.IUIService;
-
-
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
+import ru.auchan.backend.service.role.IRoleModelService;
+import ru.auchan.backend.service.user.IAuthUserService;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +24,8 @@ public class RoleModelController implements RoleModelControllerMetadata {
   private final IUIService uiService;
 
   @Override
-  public ResponseEntity<Void> updatePermission(final RoleModelUpdatePermissionRequest roleModelRequest) {
+  public ResponseEntity<Void> updatePermission(
+      final RoleModelUpdatePermissionRequest roleModelRequest) {
     final Set<UUID> affectedRoleIds = roleModelService.updatePermission(roleModelRequest);
     final Set<UUID> userIds = authUserService.findUsersByRoleId(new ArrayList<>(affectedRoleIds));
     uiService.deleteCachedAccessMapForUsers(userIds);
