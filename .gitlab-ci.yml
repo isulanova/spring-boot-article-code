@@ -3,14 +3,14 @@ include:
     ref: 'dev'
     file: '/templates/Microservice.gitlab-ci.yml'
     rules:
-      - if: "$CI_COMMIT_REF_NAME =~ /dev|msp2-dev|devops-dev-msp/"
+      - if: "$CI_COMMIT_REF_NAME =~ /dev|nl-dev/"
   - project: 'enterprise-development-team/msp2/ci-cd/swarm/ci-cd-templates'
     ref: 'uat'
     file: '/templates/Microservice.gitlab-ci.yml'
     rules:
-      - if: "$CI_COMMIT_REF_NAME =~ /(uat|msp2-uat)/"
+      - if: "$CI_COMMIT_REF_NAME =~ /(uat|nl-uat)/"
   - project: 'enterprise-development-team/msp2/ci-cd/swarm/ci-cd-templates'
     ref: 'prod'
     file: '/templates/Microservice.gitlab-ci.yml'
     rules:
-      - if: "$CI_COMMIT_REF_NAME =~ /(prod|msp2-prod)/"
+      - if: "$CI_COMMIT_REF_NAME =~ /(prod|nl-prod)/"
