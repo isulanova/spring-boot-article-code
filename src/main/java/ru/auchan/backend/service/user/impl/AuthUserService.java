@@ -14,7 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.auchan.backend.controller.role.shared.request.view.RoleItemBase;
+import ru.auchan.backend.controller.role.shared.request.view.RoleItem;
 import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
@@ -158,7 +158,7 @@ public class AuthUserService implements IAuthUserService {
     if (userOptional.isEmpty()) {
       throw new UserNotFoundException(userKeycloakId);
     } else {
-      final var roleOptional = roleRepo.findBySystemName(roleSystemName);
+      final var roleOptional = roleRepo.findByName(roleSystemName);
       if (roleOptional.isPresent()) {
         final var user = userOptional.get();
         final var userRoles = new HashSet<>(user.getUserRoles());
@@ -181,19 +181,21 @@ public class AuthUserService implements IAuthUserService {
       final var user = userOptional.get();
       user.setUserRoles(
           user.getUserRoles().stream()
-              .filter(role -> !role.getSystemName().equalsIgnoreCase(roleSystemName))
+              .filter(role -> !role.getName().equalsIgnoreCase(roleSystemName))
               .collect(Collectors.toSet()));
       userRepo.save(user);
       return true;
     }
   }
 
-  private Set<RoleItemBase> setRoles(final AuthUserEntity entity) {
-    final Set<RoleItemBase> currentRoles = new HashSet<>();
+  private Set<RoleItem> setRoles(final AuthUserEntity entity) {
+    final Set<RoleItem> currentRoles = new HashSet<>();
     for (final RoleEntity role : entity.getUserRoles()) {
-      final RoleItemBase itemBase = new RoleItemBase();
+      final RoleItem itemBase = new RoleItem();
       itemBase.setRoleId(role.getId());
       itemBase.setName(role.getName());
+      itemBase.setDescription(role.getDescription());
+      itemBase.setLabel(role.getLabel());
       currentRoles.add(itemBase);
     }
     return currentRoles;

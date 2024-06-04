@@ -82,12 +82,12 @@ public class RoleModelUpdater implements IRoleModelUpdater {
           "Old roles for permission: {} and group: {} - {}",
           permission.getSystemName(),
           permissionGroup.getName(),
-          oldRoles.stream().map(RoleEntity::getSystemName).toList());
+          oldRoles.stream().map(RoleEntity::getName).toList());
       log.info(
           "New roles for permission: {} and group: {} - {}",
           permission.getSystemName(),
           permissionGroup.getName(),
-          newRoles.stream().map(RoleEntity::getSystemName).toList());
+          newRoles.stream().map(RoleEntity::getName).toList());
       if (!newData.isEmpty()) {
         final List<RoleModelRelationEntity> persistentData = roleModelRepo.saveAll(newData);
         log.info(

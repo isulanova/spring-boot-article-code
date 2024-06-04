@@ -25,10 +25,10 @@ import ru.auchan.backend.io.entity.relations.RoleModelRelationEntity;
 public class RoleEntity extends BaseEntity implements Serializable {
 
   @Column(name = "system_name", unique = true, nullable = false)
-  private String systemName;
+  private String name;
 
   @Column(name = "ui_name", unique = true, nullable = false)
-  private String name;
+  private String label;
 
   @Column(name = "description")
   private String description;
