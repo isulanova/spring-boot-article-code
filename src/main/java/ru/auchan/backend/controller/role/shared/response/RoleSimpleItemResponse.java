@@ -25,4 +25,9 @@ public class RoleSimpleItemResponse implements Serializable {
   private String label;
 
   private String description;
+
+  public RoleSimpleItemResponse(UUID roleId, String name) {
+    this.roleId = roleId;
+    this.name = name;
+  }
 }
