@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.user.metadata.UserRestControllerMetadata;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
@@ -33,25 +32,25 @@ public class UserRestController implements UserRestControllerMetadata {
   private final IUIService uiAccessService;
 
   @Override
-  public ResponseEntity<Set<UUID>> findUsersByRoleIds(final List<UUID> roleIdList) {
-    return ResponseEntity.ok(userService.findUsersByRoleId(roleIdList));
+  public Set<UUID> findUsersByRoleIds(final List<UUID> roleIdList) {
+    return userService.findUsersByRoleId(roleIdList);
   }
 
   @Override
-  public ResponseEntity<Set<UUID>> findUsersByRoleSystemNames(final List<String> roleNameList) {
-    return ResponseEntity.ok(userService.findUsersByRoleNameList(roleNameList));
+  public Set<UUID> findUsersByRoleSystemNames(final List<String> roleNameList) {
+    return userService.findUsersByRoleNameList(roleNameList);
   }
 
-  public ResponseEntity<AuthUserItemWithRolesResponse> findByKeycloakId(final UUID id) {
-    return createFindUserResponse(userService.findByKeycloakId(id));
+  public AuthUserItemWithRolesResponse findByKeycloakId(final UUID id) {
+    return userService.findByKeycloakId(id).orElse(null);
   }
 
-  public ResponseEntity<List<AuthUserItemWithRolesResponse>> findByKeycloakIdList(
-      @RequestBody final ListWrapper<UUID> uuidList) {
+  public List<AuthUserItemWithRolesResponse> findByKeycloakIdList(
+      final ListWrapper<UUID> uuidList) {
     if (uuidList.getPayload().isEmpty()) {
-      return ResponseEntity.ok(Collections.emptyList());
+      return Collections.emptyList();
     }
-    return ResponseEntity.ok(userService.findByKeycloakIdList(uuidList.getPayload()));
+    return userService.findByKeycloakIdList(uuidList.getPayload());
   }
 
   public ResponseEntity<AuthUserItemWithRolesResponse> addUser(
@@ -72,58 +71,39 @@ public class UserRestController implements UserRestControllerMetadata {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
-  public ResponseEntity<Map<String, Object>> findByRole(
-      final UUID id, final int page, final int size) {
+  public Map<String, Object> findByRole(final UUID id, final int page, final int size) {
     try {
       final Pageable paging = PageRequest.of(page, size);
       final Page<AuthUserItemWithRolesResponse> dataPage =
           userService.findUsersByRoleId(id, paging);
-      return new ResponseEntity<>(createResponseMap(dataPage), HttpStatus.OK);
+      return createResponseMap(dataPage);
     } catch (final Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return Collections.emptyMap();
     }
   }
 
-  public ResponseEntity<Map<String, Object>> findByUserName(
-      final String username, final int page, final int size) {
+  public Map<String, Object> findByUserName(final String username, final int page, final int size) {
     try {
       final Pageable paging = PageRequest.of(page, size);
       final Page<AuthUserItemWithRolesResponse> dataPage =
           userService.findByKeycloakUserName(username, paging);
-      return new ResponseEntity<>(createResponseMap(dataPage), HttpStatus.OK);
+      return createResponseMap(dataPage);
     } catch (final Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      return Collections.emptyMap();
     }
   }
 
-  public ResponseEntity<Boolean> deleteByKeycloakId(final UUID id) {
-    return removeUser(userService.removeByKeycloakId(id));
-  }
-
-  private ResponseEntity<Boolean> removeUser(final boolean deleteResult) {
-    if (deleteResult) {
-      return new ResponseEntity<>(Boolean.TRUE, HttpStatus.NO_CONTENT);
-    } else {
-      return new ResponseEntity<>(Boolean.FALSE, HttpStatus.NOT_FOUND);
-    }
-  }
-
-  private ResponseEntity<AuthUserItemWithRolesResponse> createFindUserResponse(
-      final Optional<AuthUserItemWithRolesResponse> userResponse) {
-    return userResponse
-        .map(authUserResponse -> ResponseEntity.status(HttpStatus.OK).body(authUserResponse))
-        .orElse(null);
+  public Boolean deleteByKeycloakId(final UUID id) {
+    return userService.removeByKeycloakId(id);
   }
 
   @Override
-  public ResponseEntity<Boolean> addRoleToUser(
-      final UUID userKeycloakId, final String roleSystemName) {
-    return ResponseEntity.ok(userService.addRoleToUser(userKeycloakId, roleSystemName));
+  public Boolean addRoleToUser(final UUID userKeycloakId, final String roleSystemName) {
+    return userService.addRoleToUser(userKeycloakId, roleSystemName);
   }
 
   @Override
-  public ResponseEntity<Boolean> removeRoleFromUser(
-      final UUID userKeycloakId, final String roleSystemName) {
-    return ResponseEntity.ok(userService.removeRoleFromUser(userKeycloakId, roleSystemName));
+  public Boolean removeRoleFromUser(final UUID userKeycloakId, final String roleSystemName) {
+    return userService.removeRoleFromUser(userKeycloakId, roleSystemName);
   }
 }

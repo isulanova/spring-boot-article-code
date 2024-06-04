@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
@@ -44,6 +46,7 @@ public interface UserRestControllerMetadata {
             })
       })
   @PostMapping("/v1")
+  @ResponseStatus(value = HttpStatus.CREATED)
   ResponseEntity<AuthUserItemWithRolesResponse> addUser(
       @Valid @RequestBody UserCreateRequest userCreateRequest);
 
@@ -59,7 +62,8 @@ public interface UserRestControllerMetadata {
             })
       })
   @PostMapping("/v1/by-role-ids")
-  ResponseEntity<Set<UUID>> findUsersByRoleIds(@RequestBody List<UUID> roleIdList);
+  @ResponseStatus(value = HttpStatus.OK)
+  Set<UUID> findUsersByRoleIds(@RequestBody List<UUID> roleIdList);
 
   @Operation(summary = "Getting a list of users by the system name of the role")
   @ApiResponses(
@@ -72,7 +76,8 @@ public interface UserRestControllerMetadata {
                     mediaType = "application/json"))
       })
   @PostMapping("/v1/by-role-names")
-  ResponseEntity<Set<UUID>> findUsersByRoleSystemNames(@RequestBody List<String> roleNameList);
+  @ResponseStatus(value = HttpStatus.OK)
+  Set<UUID> findUsersByRoleSystemNames(@RequestBody List<String> roleNameList);
 
   @Operation(summary = "Search user by ID keycloak")
   @ApiResponses(
@@ -86,8 +91,8 @@ public interface UserRestControllerMetadata {
             })
       })
   @GetMapping(value = "/v1/{keycloak_id}", produces = "application/json")
-  ResponseEntity<AuthUserItemWithRolesResponse> findByKeycloakId(
-      @PathVariable("keycloak_id") UUID id);
+  @ResponseStatus(value = HttpStatus.OK)
+  AuthUserItemWithRolesResponse findByKeycloakId(@PathVariable("keycloak_id") UUID id);
 
   @Operation(summary = "List of users with roles by keycloak ID list")
   @ApiResponses(
@@ -102,8 +107,8 @@ public interface UserRestControllerMetadata {
                                 @Schema(implementation = AuthUserItemWithRolesResponse.class))))
       })
   @PostMapping("/v1/keycloak/list")
-  ResponseEntity<List<AuthUserItemWithRolesResponse>> findByKeycloakIdList(
-      @RequestBody ListWrapper<UUID> uuidList);
+  @ResponseStatus(value = HttpStatus.OK)
+  List<AuthUserItemWithRolesResponse> findByKeycloakIdList(@RequestBody ListWrapper<UUID> uuidList);
 
   @Operation(summary = "User update")
   @ApiResponses(
@@ -117,20 +122,23 @@ public interface UserRestControllerMetadata {
             })
       })
   @PutMapping("/v1/{keycloak_id}")
+  @ResponseStatus(value = HttpStatus.ACCEPTED)
   ResponseEntity<UpdatedUserRoleServiceResponse> update(
       @PathVariable("keycloak_id") UUID id,
       @Valid @RequestBody AuthUserUpdateRequest updateRequest);
 
   @Operation(summary = "Search users by role ID")
   @GetMapping("/v1/list/{role_id}")
-  ResponseEntity<Map<String, Object>> findByRole(
+  @ResponseStatus(value = HttpStatus.OK)
+  Map<String, Object> findByRole(
       @PathVariable("role_id") UUID id,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size);
 
   @Operation(summary = "User search by username")
   @GetMapping("/v1/find/{username}")
-  ResponseEntity<Map<String, Object>> findByUserName(
+  @ResponseStatus(value = HttpStatus.OK)
+  Map<String, Object> findByUserName(
       @PathVariable("username") String username,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size);
@@ -146,22 +154,24 @@ public interface UserRestControllerMetadata {
                   schema = @Schema(implementation = Boolean.class))
             })
       })
+  @ResponseStatus(value = HttpStatus.OK)
   @DeleteMapping("/v1/{keycloak_id}")
-  ResponseEntity<Boolean> deleteByKeycloakId(@PathVariable("keycloak_id") UUID id);
+  Boolean deleteByKeycloakId(@PathVariable("keycloak_id") UUID id);
 
   @Operation(summary = "Add role to user")
   @ApiResponses(
       value = {
         @ApiResponse(
-            responseCode = "200",
+            responseCode = "202",
             content = {
               @Content(
                   mediaType = "application/json",
                   schema = @Schema(implementation = Boolean.class))
             })
       })
+  @ResponseStatus(value = HttpStatus.ACCEPTED)
   @PostMapping("/v1/{userKeycloakId}/role/{roleSystemName}")
-  ResponseEntity<Boolean> addRoleToUser(
+  Boolean addRoleToUser(
       @PathVariable("userKeycloakId") @NotNull UUID userKeycloakId,
       @PathVariable("roleSystemName") @NotBlank String roleSystemName);
 
@@ -169,15 +179,16 @@ public interface UserRestControllerMetadata {
   @ApiResponses(
       value = {
         @ApiResponse(
-            responseCode = "200",
+            responseCode = "204",
             content = {
               @Content(
                   mediaType = "application/json",
                   schema = @Schema(implementation = Boolean.class))
             })
       })
+  @ResponseStatus(value = HttpStatus.NO_CONTENT)
   @DeleteMapping("/v1/{userKeycloakId}/role/{roleSystemName}")
-  ResponseEntity<Boolean> removeRoleFromUser(
+  Boolean removeRoleFromUser(
       @PathVariable("userKeycloakId") @NotNull UUID userKeycloakId,
       @PathVariable("roleSystemName") @NotBlank String roleSystemName);
 }

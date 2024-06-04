@@ -21,4 +21,8 @@ public class RoleSimpleItemResponse implements Serializable {
 
   @JsonProperty("name")
   private String name;
+
+  private String label;
+
+  private String description;
 }

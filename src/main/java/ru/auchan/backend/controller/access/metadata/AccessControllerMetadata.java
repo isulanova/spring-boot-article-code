@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +38,8 @@ public interface AccessControllerMetadata {
             })
       })
   @GetMapping("/v1/{id}")
-  ResponseEntity<UserAccessMapResponse> getAccessMap(@NotNull @PathVariable("id") UUID userId);
+  @ResponseStatus(HttpStatus.OK)
+  UserAccessMapResponse getAccessMap(@NotNull @PathVariable("id") UUID userId);
 
   @Operation(summary = "Updating a user's access map")
   @ApiResponses(
@@ -54,7 +54,7 @@ public interface AccessControllerMetadata {
       })
   @GetMapping("/v1/renew/{id}")
   @ResponseStatus(value = HttpStatus.OK)
-  ResponseEntity<UserAccessMapResponse> renewAccessMap(@NotNull @PathVariable("id") UUID userId);
+  void renewAccessMap(@NotNull @PathVariable("id") UUID userId);
 
   @Operation(
       summary = "Getting a list of user privileges by its identifier within a specific module")
@@ -69,7 +69,8 @@ public interface AccessControllerMetadata {
             })
       })
   @PostMapping("/v1/by-group")
-  ResponseEntity<UserAccessMapResponse> getAccessMapByPermissionGroup(
+  @ResponseStatus(value = HttpStatus.OK)
+  UserAccessMapResponse getAccessMapByPermissionGroup(
       @RequestBody AccessMapByPermissionGroupRequest accessRequest);
 
   @Operation(summary = "Checking if a User has a Privilege")
@@ -84,5 +85,6 @@ public interface AccessControllerMetadata {
             })
       })
   @PostMapping("/v1/check")
-  ResponseEntity<Boolean> checkAccess(@RequestBody AccessRequest permissionRequest);
+  @ResponseStatus(value = HttpStatus.OK)
+  Boolean checkAccess(@RequestBody AccessRequest permissionRequest);
 }
