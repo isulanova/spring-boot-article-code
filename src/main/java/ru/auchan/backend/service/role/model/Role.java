@@ -14,9 +14,9 @@ public class Role {
 
   private UUID id;
 
-  private String systemName;
-
   private String name;
+
+  private String label;
 
   private String description;
 }

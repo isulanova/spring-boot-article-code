@@ -123,7 +123,7 @@ public class RoleModelUpdater implements IRoleModelUpdater {
       final List<ru.auchan.backend.service.role.model.Role> roles) {
     final List<RoleModelRelationEntity> roleModelItems = new ArrayList<>();
     for (final ru.auchan.backend.service.role.model.Role role : roles) {
-      log.info("Add role {} to permission {}", role.getSystemName(), permission.getSystemName());
+      log.info("Add role {} to permission {}", role.getName(), permission.getSystemName());
       final var roleModelItem =
           RoleModelRelationEntity.builder()
               .role(mapper.map(role, RoleEntity.class))
