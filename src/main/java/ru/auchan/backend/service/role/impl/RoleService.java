@@ -66,7 +66,7 @@ public class RoleService implements IRoleService {
   private List<RoleSimpleItemResponse> getResponseRolesFromEntities(
       final List<RoleEntity> roleEntities) {
     return roleEntities.stream()
-        .map(entity -> new RoleSimpleItemResponse(entity.getId(), entity.getSystemName()))
+        .map(entity -> new RoleSimpleItemResponse(entity.getId(), entity.getName()))
         .toList();
   }
 
@@ -84,7 +84,7 @@ public class RoleService implements IRoleService {
 
   @Override
   public Optional<RoleWithPermissionsItemResponse> findBySystemName(final String systemName) {
-    final Optional<RoleEntity> roleFromDb = roleRepo.findBySystemName(systemName);
+    final Optional<RoleEntity> roleFromDb = roleRepo.findByName(systemName);
     if (roleFromDb.isPresent()) {
       return Optional.of(mapper.map(roleFromDb.get(), RoleWithPermissionsItemResponse.class));
     } else {
@@ -96,7 +96,7 @@ public class RoleService implements IRoleService {
   @Override
   public Set<ru.auchan.backend.service.role.model.Role> findBySystemNameIn(
       final Set<String> systemNames) {
-    return roleRepo.findBySystemNameIn(systemNames).stream()
+    return roleRepo.findByNameIn(systemNames).stream()
         .map(item -> mapper.map(item, ru.auchan.backend.service.role.model.Role.class))
         .collect(Collectors.toSet());
   }
@@ -105,7 +105,7 @@ public class RoleService implements IRoleService {
   public Optional<RoleItemResponse> addRole(final RoleItemRequest roleCreationRequest) {
     log.info("Trying to create role with params: {}", roleCreationRequest);
     final Optional<RoleEntity> roleFromDb =
-        roleRepo.findBySystemName(roleCreationRequest.getSystemName());
+        roleRepo.findByName(roleCreationRequest.getSystemName());
     if (roleFromDb.isPresent()) {
       log.error("Role: {} already exists", roleCreationRequest.getSystemName());
       throw new RoleAlreadyExistsException(roleCreationRequest.getSystemName());
@@ -135,8 +135,8 @@ public class RoleService implements IRoleService {
     } else {
       final RoleEntity roleFromDb = roleFromDbOptional.get();
       roleFromDb.setDescription(itemRequest.getDescription());
-      roleFromDb.setSystemName(itemRequest.getSystemName());
-      roleFromDb.setName(itemRequest.getUiName());
+      roleFromDb.setName(itemRequest.getSystemName());
+      roleFromDb.setLabel(itemRequest.getUiName());
       final RoleEntity updatedEntity = roleRepo.save(roleFromDb);
       return findByIdentifier(updatedEntity.getId());
     }
@@ -154,7 +154,7 @@ public class RoleService implements IRoleService {
               .collect(Collectors.toSet());
       final RoleWithPermissionsItemResponse response = new RoleWithPermissionsItemResponse();
       response.setPermissions(permissions);
-      response.setDescription(roleFromDb.getSystemName());
+      response.setDescription(roleFromDb.getName());
       response.setRoleId(roleFromDb.getId());
       response.setLabel(roleFromDb.getDescription());
       response.setName(roleFromDb.getDescription());

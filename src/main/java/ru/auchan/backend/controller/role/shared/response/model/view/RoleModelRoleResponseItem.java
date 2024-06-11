@@ -24,7 +24,7 @@ public class RoleModelRoleResponseItem implements Serializable {
   public static RoleModelRoleResponseItem fromModel(final Role role) {
     return RoleModelRoleResponseItem.builder()
         .roleId(role.getId())
-        .roleName(role.getName())
+        .roleName(role.getLabel())
         .build();
   }
 }

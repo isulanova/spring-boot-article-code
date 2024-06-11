@@ -19,7 +19,7 @@ public class RoleModelSystemRole implements Serializable, Comparable<RoleModelSy
   private String systemName;
 
   public static RoleModelSystemRole fromModel(final Role role) {
-    return RoleModelSystemRole.builder().systemName(role.getSystemName()).build();
+    return RoleModelSystemRole.builder().systemName(role.getName()).build();
   }
 
   @Override

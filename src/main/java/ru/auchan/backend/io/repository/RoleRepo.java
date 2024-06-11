@@ -13,7 +13,7 @@ import ru.auchan.backend.io.entity.role.RoleEntity;
 @Repository
 public interface RoleRepo extends JpaRepository<RoleEntity, UUID> {
 
-  Optional<RoleEntity> findBySystemName(String systemName);
+  Optional<RoleEntity> findByName(String systemName);
 
   @Query(
       value =
@@ -28,5 +28,5 @@ public interface RoleRepo extends JpaRepository<RoleEntity, UUID> {
       nativeQuery = true)
   List<RoleEntity> findByKeycloakId(@Param("id") UUID id);
 
-  Set<RoleEntity> findBySystemNameIn(Set<String> roleNames);
+  Set<RoleEntity> findByNameIn(Set<String> roleNames);
 }

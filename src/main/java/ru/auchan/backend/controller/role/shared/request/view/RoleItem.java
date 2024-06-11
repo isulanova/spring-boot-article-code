@@ -10,11 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Schema(title = "[ROLE] role item simple response")
-public class RoleItemBase implements Serializable {
+public class RoleItem implements Serializable {
 
   @JsonProperty("id")
   private UUID roleId;
 
   @JsonProperty("name")
   private String name;
+
+  private String label;
+
+  private String description;
 }

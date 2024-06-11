@@ -82,12 +82,12 @@ public class RoleModelUpdater implements IRoleModelUpdater {
           "Old roles for permission: {} and group: {} - {}",
           permission.getSystemName(),
           permissionGroup.getName(),
-          oldRoles.stream().map(RoleEntity::getSystemName).toList());
+          oldRoles.stream().map(RoleEntity::getName).toList());
       log.info(
           "New roles for permission: {} and group: {} - {}",
           permission.getSystemName(),
           permissionGroup.getName(),
-          newRoles.stream().map(RoleEntity::getSystemName).toList());
+          newRoles.stream().map(RoleEntity::getName).toList());
       if (!newData.isEmpty()) {
         final List<RoleModelRelationEntity> persistentData = roleModelRepo.saveAll(newData);
         log.info(
@@ -123,7 +123,7 @@ public class RoleModelUpdater implements IRoleModelUpdater {
       final List<ru.auchan.backend.service.role.model.Role> roles) {
     final List<RoleModelRelationEntity> roleModelItems = new ArrayList<>();
     for (final ru.auchan.backend.service.role.model.Role role : roles) {
-      log.info("Add role {} to permission {}", role.getSystemName(), permission.getSystemName());
+      log.info("Add role {} to permission {}", role.getName(), permission.getSystemName());
       final var roleModelItem =
           RoleModelRelationEntity.builder()
               .role(mapper.map(role, RoleEntity.class))
