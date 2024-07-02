@@ -5,11 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +34,6 @@ public class RoleEntity extends BaseEntity implements Serializable {
   @ManyToMany(mappedBy = "userRoles")
   private Set<AuthUserEntity> user;
 
-  @Builder.Default
   @OneToMany(mappedBy = "role")
   private Set<RoleModelRelationEntity> model = new HashSet<>();
 }

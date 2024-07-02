@@ -37,4 +37,6 @@ public interface IAuthUserService {
   boolean addRoleToUser(UUID userKeycloakId, String roleSystemName);
 
   boolean removeRoleFromUser(UUID userKeycloakId, String roleSystemName);
+
+  Set<UUID> filtrationByGroupNames(Set<UUID> keycloakUserIds, Set<String> groupNames);
 }

@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +17,6 @@ public class RoleModelSystemGroup implements Serializable, Comparable<RoleModelS
   @JsonProperty("systemName")
   private String systemName;
 
-  @Builder.Default
   @JsonProperty("permissions")
   private Set<RoleModelSystemPermission> permissions = new TreeSet<>();
 

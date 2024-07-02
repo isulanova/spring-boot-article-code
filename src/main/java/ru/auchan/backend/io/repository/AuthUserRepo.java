@@ -1,5 +1,6 @@
 package ru.auchan.backend.io.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -8,8 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.auchan.backend.io.entity.AuthUserEntity;
 import ru.auchan.backend.io.projections.AuthUserWithRolesProj;
 
@@ -42,7 +43,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                   WHERE su.keycloak_id = :keycloakId
                   GROUP BY su.keycloak_id, su.user_name""",
       nativeQuery = true)
-  Optional<AuthUserWithRolesProj> findByKeycloakId(@RequestParam("keycloakId") UUID keycloakId);
+  Optional<AuthUserWithRolesProj> findByKeycloakId(@Param("keycloakId") UUID keycloakId);
 
   @Query(
       value =
@@ -70,8 +71,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                   WHERE su.keycloak_id IN (:keycloakIds)
                   GROUP BY su.keycloak_id, su.user_name""",
       nativeQuery = true)
-  List<AuthUserWithRolesProj> findByKeycloakIdList(
-      @RequestParam("keycloakIds") List<UUID> keycloakIds);
+  List<AuthUserWithRolesProj> findByKeycloakIdList(@Param("keycloakIds") List<UUID> keycloakIds);
 
   @Query(
       value =
@@ -99,8 +99,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                   WHERE su.user_name like concat('%', :userName , '%')
                   GROUP BY su.keycloak_id, su.user_name""",
       nativeQuery = true)
-  Page<AuthUserWithRolesProj> findByUserName(
-      @RequestParam("userName") String userName, Pageable pageable);
+  Page<AuthUserWithRolesProj> findByUserName(@Param("userName") String userName, Pageable pageable);
 
   @Query(
       value =
@@ -134,8 +133,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                                   json_array_elements(q.roles) as r
                           WHERE (r ->>'id')\\:\\:uuid IN (:roleId)""",
       nativeQuery = true)
-  Page<AuthUserWithRolesProj> findByUserRole(
-      @RequestParam("roleId") UUID roleId, Pageable pageable);
+  Page<AuthUserWithRolesProj> findByUserRole(@Param("roleId") UUID roleId, Pageable pageable);
 
   @Query(
       value =
@@ -145,7 +143,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
             from {h-schema}system_user_role
             where role_id in (:roleIds)""",
       nativeQuery = true)
-  Set<UUID> findUserIdListByRoleId(@RequestParam("roleIds") List<UUID> roleIds);
+  Set<UUID> findUserIdListByRoleId(@Param("roleIds") List<UUID> roleIds);
 
   @Query(
       value =
@@ -157,7 +155,7 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                        join {h-schema}system_role sr on sur.role_id = sr.id
               WHERE sr.system_name in (:roleNames)""",
       nativeQuery = true)
-  Set<UUID> findUserIdListByRoleNames(@RequestParam("roleNames") List<String> roleNames);
+  Set<UUID> findUserIdListByRoleNames(@Param("roleNames") List<String> roleNames);
 
   @Query(
       value =
@@ -185,4 +183,19 @@ public interface AuthUserRepo extends JpaRepository<AuthUserEntity, UUID> {
                   GROUP BY su.keycloak_id, su.user_name""",
       nativeQuery = true)
   Page<AuthUserWithRolesProj> list(Pageable pageable);
+
+  @Query(
+      value =
+          """
+          SELECT DISTINCT u.keycloak_id
+          FROM system_usr u
+                   LEFT JOIN system_user_role sur ON sur.user_id = u.keycloak_id
+                   LEFT JOIN system_role sr ON sr.id = sur.role_id
+                   LEFT JOIN system_role_model srm ON srm.role_system_name = sr.system_name
+          WHERE u.keycloak_id IN (:keycloakUserIds) AND srm.permission_group_name IN (:groupNames)
+      """,
+      nativeQuery = true)
+  Set<UUID> filteringByGroupName(
+      @Param("keycloakUserIds") Collection<UUID> keycloakUserIds,
+      @Param("groupNames") Collection<String> groupNames);
 }

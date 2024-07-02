@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +22,6 @@ public class RoleModelGroupResponseItem
   @JsonProperty("name")
   private String groupName;
 
-  @Builder.Default
   @JsonProperty("permissions")
   private Set<RoleModelPermissionResponseItem> permissions = new TreeSet<>();
 

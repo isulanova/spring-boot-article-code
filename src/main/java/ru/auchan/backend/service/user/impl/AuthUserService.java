@@ -1,5 +1,6 @@
 package ru.auchan.backend.service.user.impl;
 
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import ru.auchan.backend.controller.role.shared.request.view.RoleItem;
 import ru.auchan.backend.controller.role.shared.response.RoleSimpleItemResponse;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
@@ -186,6 +189,19 @@ public class AuthUserService implements IAuthUserService {
       userRepo.save(user);
       return true;
     }
+  }
+
+  @Override
+  public Set<UUID> filtrationByGroupNames(final Set<UUID> keycloakUserIds, final @Nullable Set<String> groupNames) {
+    Assert.notEmpty(keycloakUserIds, "The user list must not be empty");
+    Assert.noNullElements(keycloakUserIds, "List element cannot be null");
+    Assert.noNullElements(groupNames, "List element cannot be null");
+
+    if (CollectionUtils.isEmpty(groupNames)) {
+      return keycloakUserIds;
+    }
+
+    return userRepo.filteringByGroupName(keycloakUserIds, groupNames);
   }
 
   private Set<RoleItem> setRoles(final AuthUserEntity entity) {

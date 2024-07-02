@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
+import ru.auchan.backend.controller.user.shared.request.FiltrationByGroupRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
 import ru.auchan.backend.controller.user.shared.response.UpdatedUserRoleServiceResponse;
 import ru.auchan.backend.controller.util.ListWrapper;
 
+@Validated
 @Tag(name = "[USER] User API", description = "User Management API")
 @RequestMapping(value = "/api/users")
 public interface UserRestControllerMetadata {
@@ -191,4 +194,8 @@ public interface UserRestControllerMetadata {
   Boolean removeRoleFromUser(
       @PathVariable("userKeycloakId") @NotNull UUID userKeycloakId,
       @PathVariable("roleSystemName") @NotBlank String roleSystemName);
+
+  @Operation(summary = "Filtering by group name")
+  @PostMapping(value = "/v1/filtration/by-group-names", produces = "application/json")
+  Set<UUID> filtrationByGroupNames(@RequestBody @Valid FiltrationByGroupRequest request);
 }

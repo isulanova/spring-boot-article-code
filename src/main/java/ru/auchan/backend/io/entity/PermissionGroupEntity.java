@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ru.auchan.backend.io.entity.base.BaseEntity;
@@ -29,7 +28,6 @@ public class PermissionGroupEntity extends BaseEntity implements Serializable {
   @Column(name = "alias", nullable = false)
   private String alias;
 
-  @Builder.Default
   @OneToMany(mappedBy = "permissionGroup")
   private Set<RoleModelRelationEntity> model = new HashSet<>();
 

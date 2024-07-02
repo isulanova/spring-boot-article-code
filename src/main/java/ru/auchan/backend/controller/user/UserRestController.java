@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.user.metadata.UserRestControllerMetadata;
 import ru.auchan.backend.controller.user.shared.request.AuthUserUpdateRequest;
+import ru.auchan.backend.controller.user.shared.request.FiltrationByGroupRequest;
 import ru.auchan.backend.controller.user.shared.request.UserCreateRequest;
 import ru.auchan.backend.controller.user.shared.response.AuthUserItemWithRolesResponse;
 import ru.auchan.backend.controller.user.shared.response.UpdatedUserRoleServiceResponse;
@@ -105,5 +106,10 @@ public class UserRestController implements UserRestControllerMetadata {
   @Override
   public Boolean removeRoleFromUser(final UUID userKeycloakId, final String roleSystemName) {
     return userService.removeRoleFromUser(userKeycloakId, roleSystemName);
+  }
+
+  @Override
+  public Set<UUID> filtrationByGroupNames(final FiltrationByGroupRequest request) {
+    return userService.filtrationByGroupNames(request.keycloakUserIds(), request.groupNames());
   }
 }
