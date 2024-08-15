@@ -2,20 +2,20 @@ package ru.auchan.backend.controller.access;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.RestController;
 import ru.auchan.backend.controller.access.metadata.AccessControllerMetadata;
 import ru.auchan.backend.controller.access.shared.request.AccessMapByPermissionGroupRequest;
 import ru.auchan.backend.controller.access.shared.request.AccessRequest;
 import ru.auchan.backend.controller.access.shared.response.UserAccessMapResponse;
 import ru.auchan.backend.service.access.IUIService;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @RestController
 @RequiredArgsConstructor
 public class AccessController implements AccessControllerMetadata {
 
   private final IUIService uiService;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public UserAccessMapResponse getAccessMap(final UUID userId) {

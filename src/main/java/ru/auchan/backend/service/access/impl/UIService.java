@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.access.shared.request.AccessMapByPermissionGroupRequest;
 import ru.auchan.backend.controller.access.shared.request.AccessRequest;
@@ -23,9 +22,9 @@ import ru.auchan.backend.io.entity.role.RoleEntity;
 import ru.auchan.backend.io.repository.RoleModelRepo;
 import ru.auchan.backend.service.access.IUIService;
 import ru.auchan.backend.service.access.model.UserAccessMap;
-import ru.auchan.backend.service.permission.IPermissionGroupService;
 import ru.auchan.backend.service.role.IRoleService;
 import ru.auchan.backend.service.user.IAuthUserService;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -34,8 +33,7 @@ public class UIService implements IUIService {
 
   private final IAuthUserService userService;
   private final IRoleService roleService;
-  private final IPermissionGroupService groupService;
-  private final ModelMapper modelMapper;
+  private final GeneralModelMapper modelMapper;
   private final RoleModelRepo roleModelRepo;
 
   @Override

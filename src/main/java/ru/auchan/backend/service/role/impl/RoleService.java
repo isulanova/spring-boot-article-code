@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
@@ -24,6 +23,7 @@ import ru.auchan.backend.io.repository.RoleRepo;
 import ru.auchan.backend.service.role.IRoleService;
 import ru.auchan.backend.service.role.exception.RoleAlreadyExistsException;
 import ru.auchan.backend.service.role.exception.RoleNotFoundException;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -31,7 +31,7 @@ import ru.auchan.backend.service.role.exception.RoleNotFoundException;
 public class RoleService implements IRoleService {
 
   private final RoleRepo roleRepo;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   @Cacheable(value = "role_group_list")
@@ -153,11 +153,12 @@ public class RoleService implements IRoleService {
               .map(PermissionItemResponse::fromEntity)
               .collect(Collectors.toSet());
       final RoleWithPermissionsItemResponse response = new RoleWithPermissionsItemResponse();
-      response.setPermissions(permissions);
-      response.setDescription(roleFromDb.getName());
       response.setRoleId(roleFromDb.getId());
-      response.setLabel(roleFromDb.getDescription());
-      response.setName(roleFromDb.getDescription());
+      response.setName(roleFromDb.getName());
+      response.setLabel(roleFromDb.getLabel());
+      response.setDescription(roleFromDb.getDescription());
+      response.setPermissions(permissions);
+
       return Optional.of(response);
     } else {
       log.error("Role with ID: {} not found", id);

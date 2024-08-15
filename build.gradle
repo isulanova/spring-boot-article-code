@@ -55,10 +55,13 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     // UTIL
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
-    implementation 'org.modelmapper:modelmapper:3.1.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    //INTERNAL
+    implementation 'ru.auchan.modules:map-starter:+',
+            'ru.auchan.modules:api-starter:+'
 }
 
 // ======= build ===================================================================
@@ -79,7 +82,7 @@ springBoot {
 
 // 2) git info
 gitProperties {
-    keys = ['git.branch','git.commit.user.email']
+    keys = ['git.branch', 'git.commit.user.email']
 }
 
 // 3) layered jar
@@ -127,8 +130,8 @@ static String calculatedVersion() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY.M");
     var date = LocalDateTime.now().format(formatter);
     return Calendar.WEEK_OF_MONTH > 2
-            ?  date + '.Q2'
-            :  date + '.Q1'
+            ? date + '.Q2'
+            : date + '.Q1'
 }
 
 configurations {

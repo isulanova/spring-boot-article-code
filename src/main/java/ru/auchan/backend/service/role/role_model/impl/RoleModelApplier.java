@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystemGroup;
@@ -29,6 +28,7 @@ import ru.auchan.backend.service.role.model.Role;
 import ru.auchan.backend.service.role.model.RoleModel;
 import ru.auchan.backend.service.role.role_model.IRoleModelApplier;
 import ru.auchan.backend.service.role.role_model.model.PermissionRoleGroup;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -40,7 +40,7 @@ public class RoleModelApplier implements IRoleModelApplier {
   private final IRoleService roleService;
   private final IPermissionGroupService permissionGroupService;
   private final IPermissionService permissionService;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public void applyRoleModel(final RoleModelSystem roleModelSystem) {

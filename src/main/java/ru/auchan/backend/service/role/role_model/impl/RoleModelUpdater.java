@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.role.shared.request.view.RoleModelPermissionRequestItem;
 import ru.auchan.backend.controller.role.shared.request.view.RoleModelRoleRequestItem;
@@ -28,6 +27,7 @@ import ru.auchan.backend.service.permission.model.PermissionGroup;
 import ru.auchan.backend.service.role.IRoleService;
 import ru.auchan.backend.service.role.exception.RoleModelException;
 import ru.auchan.backend.service.role.role_model.IRoleModelUpdater;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -39,7 +39,7 @@ public class RoleModelUpdater implements IRoleModelUpdater {
   private final IRoleService roleService;
   private final IPermissionGroupService permissionGroupService;
   private final IPermissionService permissionService;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   public static <T> Set<T> symmetricDifference(
       final Set<? extends T> s1, final Set<? extends T> s2) {

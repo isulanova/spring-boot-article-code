@@ -11,7 +11,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,7 @@ import ru.auchan.backend.service.role.exception.RoleNotFoundException;
 import ru.auchan.backend.service.user.IAuthUserService;
 import ru.auchan.backend.service.user.exception.UserAlreadyExistsException;
 import ru.auchan.backend.service.user.exception.UserNotFoundException;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -40,7 +40,7 @@ public class AuthUserService implements IAuthUserService {
 
   private final AuthUserRepo userRepo;
   private final RoleRepo roleRepo;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public Optional<AuthUserItemWithRolesResponse> findByKeycloakId(UUID uuid) {
@@ -192,7 +192,8 @@ public class AuthUserService implements IAuthUserService {
   }
 
   @Override
-  public Set<UUID> filtrationByGroupNames(final Set<UUID> keycloakUserIds, final @Nullable Set<String> groupNames) {
+  public Set<UUID> filtrationByGroupNames(
+      final Set<UUID> keycloakUserIds, final @Nullable Set<String> groupNames) {
     Assert.notEmpty(keycloakUserIds, "The user list must not be empty");
     Assert.noNullElements(keycloakUserIds, "List element cannot be null");
     Assert.noNullElements(groupNames, "List element cannot be null");

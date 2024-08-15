@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.auchan.backend.controller.permission.shared.request.PermissionGroupRequest;
 import ru.auchan.backend.controller.permission.shared.response.PermissionGroupResponse;
@@ -14,6 +13,7 @@ import ru.auchan.backend.io.repository.PermissionGroupRepo;
 import ru.auchan.backend.service.permission.IPermissionGroupService;
 import ru.auchan.backend.service.permission.exception.PermissionGroupAlreadyExistException;
 import ru.auchan.backend.service.permission.exception.PermissionGroupNotFoundException;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
@@ -21,7 +21,7 @@ import ru.auchan.backend.service.permission.exception.PermissionGroupNotFoundExc
 public class PermissionGroupService implements IPermissionGroupService {
 
   private final PermissionGroupRepo groupRepo;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public List<PermissionGroupResponse> findAll() {

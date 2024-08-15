@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +21,14 @@ import ru.auchan.backend.controller.permission.shared.request.PermissionItemRequ
 import ru.auchan.backend.controller.permission.shared.response.PermissionItemResponse;
 import ru.auchan.backend.controller.util.ListWrapper;
 import ru.auchan.backend.service.permission.IPermissionService;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @RestController
 @RequiredArgsConstructor
 public class PermissionController implements PermissionControllerMetadata {
 
   private final IPermissionService permissionService;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   public ResponseEntity<Map<String, Object>> getPermissionListPageable(
       final int page, final int size) {

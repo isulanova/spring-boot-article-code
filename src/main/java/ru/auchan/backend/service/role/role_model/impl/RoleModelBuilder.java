@@ -12,7 +12,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystem;
 import ru.auchan.backend.controller.role.shared.response.model.system.RoleModelSystemGroup;
@@ -33,6 +32,7 @@ import ru.auchan.backend.service.role.role_model.IRoleModelBuilder;
 import ru.auchan.backend.service.role.role_model.model.PermissionGroupPermission;
 import ru.auchan.backend.service.role.role_model.model.PermissionRoleGroup;
 import ru.auchan.backend.service.role.role_model.model.RoleModelRaw;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @SuppressWarnings("checkstyle:classdataabstractioncoupling")
 @Slf4j
@@ -41,7 +41,7 @@ import ru.auchan.backend.service.role.role_model.model.RoleModelRaw;
 public class RoleModelBuilder implements IRoleModelBuilder {
 
   private final RoleModelRepo roleModelRepo;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public RoleModelResponse getRoleModelUi() {

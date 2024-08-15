@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,13 +16,14 @@ import ru.auchan.backend.service.permission.IPermissionService;
 import ru.auchan.backend.service.permission.exception.PermissionAlreadyExistsException;
 import ru.auchan.backend.service.permission.exception.PermissionNotFoundException;
 import ru.auchan.backend.service.permission.model.Permission;
+import ru.auchan.modules.map.mapping.GeneralModelMapper;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PermissionService implements IPermissionService {
   private final PermissionRepo permissionRepo;
-  private final ModelMapper mapper;
+  private final GeneralModelMapper mapper;
 
   @Override
   public Page<PermissionItemResponse> list(final Pageable pageable) {
