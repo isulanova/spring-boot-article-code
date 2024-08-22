@@ -8,7 +8,8 @@ plugins {
     /* build info */
     id "com.gorylenko.gradle-git-properties" version "2.4.1"
     /* static analysis */
-    id "ru.auchan.codestyle" version "1.2.6"
+    id "ru.auchan.checkstyle" version "1.0.1"
+    id "ru.auchan.sonarqube" version "1.0.10"
 }
 
 // ======= artifact data =============================================================
@@ -138,9 +139,4 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-// ======= static analysis===================================================================
-bootJar {
-    dependsOn runQualityGate
 }
