@@ -4,5 +4,6 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_URL:https://nl-dev.ru.auchan.com/config}
+      fail-fast: true
   profiles:
     active: ${PROFILE:dev}

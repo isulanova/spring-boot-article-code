@@ -1,4 +1,2 @@
 include:
-  - project: 'enterprise-development-team/ci-cd/ci-cd-templates'
-    ref: '${CI_COMMIT_REF_NAME}'
-    file: '${PROJECT_SHORT_NAME}/Microservice.gitlab-ci.yml'
+  - remote: '${NEXUS_URL}/repository/ci-cd-templates/${PROJECT_SHORT_NAME}/${CI_CD_STREAM}/Microservice.gitlab-ci.yml'
