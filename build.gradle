@@ -1,134 +1,17 @@
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.2.3'
-    id 'io.spring.dependency-management' version '1.1.4'
-    /* build info */
-    id "com.gorylenko.gradle-git-properties" version "2.4.1"
-    /* static analysis */
-    id "ru.auchan.checkstyle" version "1.0.1"
-    id "ru.auchan.sonarqube" version "1.0.10"
+    id 'ru.auchan.nl.gradle-parent' version '1.0.0'
 }
 
-// ======= artifact data =============================================================
-group = 'ru.auchan'
-project.version = calculatedVersion();
 description = 'nl-role-service'
-java.sourceCompatibility = JavaVersion.VERSION_17
-java.targetCompatibility = JavaVersion.VERSION_17
 
-// ======= dependency management =====================================================
-ext {
-    set('springCloudVersion', "2023.0.0")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
-// ======= dependency list =========================================================
 dependencies {
     // CORE
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // JPA
-    implementation 'org.flywaydb:flyway-core:10.10.0'
-    implementation 'org.flywaydb:flyway-database-postgresql:10.10.0'
-    implementation 'org.postgresql:postgresql:42.7.3'
-    // DISCOVERY
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    // UTIL
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    implementation 'org.postgresql:postgresql'
     //INTERNAL
-    implementation 'ru.auchan.modules:map-starter:+',
-            'ru.auchan.modules:api-starter:+'
-}
-
-// ======= build ===================================================================
-// 1) build info
-springBoot {
-    buildInfo {
-        properties {
-            additional = [
-                    'name'       : project.getDescription(),
-                    'description': project.getDescription(),
-                    'version'    : project.getVersion(),
-                    'java'       : java.getTargetCompatibility(),
-                    'time'       : generateBuildTimestamp()
-            ]
-        }
-    }
-}
-
-// 2) git info
-gitProperties {
-    keys = ['git.branch', 'git.commit.user.email']
-}
-
-// 3) layered jar
-/**
- * Packaging Layered Jar
- * https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/
- * https://habr.com/ru/articles/522122/
- * https://struchkov.dev/blog/ru/build-docker-image-for-spring-boot/
- */
-tasks.named("bootJar") {
-    layered {
-        application {
-            intoLayer("spring-boot-loader") {
-                include "org/springframework/boot/loader/**"
-            }
-            intoLayer("application")
-        }
-        dependencies {
-            intoLayer("application") {
-                includeProjectDependencies()
-            }
-            intoLayer("snapshot-dependencies") {
-                include "*:*:*SNAPSHOT"
-            }
-            intoLayer("dependencies")
-        }
-        layerOrder = ["dependencies", "spring-boot-loader", "snapshot-dependencies", "application"]
-    }
-}
-
-// ======= custom ===================================================================
-/**
- * Generate build timestamp
- * @return build timestamp
- */
-static String generateBuildTimestamp() {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    return LocalDateTime.now().format(formatter);
-}
-/**
- * Generate build version
- * @return build version
- */
-static String calculatedVersion() {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YY.M");
-    var date = LocalDateTime.now().format(formatter);
-    return Calendar.WEEK_OF_MONTH > 2
-            ? date + '.Q2'
-            : date + '.Q1'
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    implementation 'ru.auchan.modules:map-starter:0.0.1',
+            'ru.auchan.modules:api-starter:0.0.5'
 }
