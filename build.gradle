@@ -1,5 +1,5 @@
 plugins {
-    id 'ru.auchan.nl.gradle-parent' version '1.0.0'
+    id 'ru.auchan.nl.gradle-parent' version '1.2'
 }
 
 description = 'nl-role-service'
