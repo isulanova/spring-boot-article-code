@@ -12,6 +12,6 @@ dependencies {
     implementation 'org.flywaydb:flyway-database-postgresql'
     implementation 'org.postgresql:postgresql'
     //INTERNAL
-    implementation 'ru.auchan.modules:map-starter:0.0.1',
-            'ru.auchan.modules:api-starter:0.0.5'
+    implementation 'ru.auchan.modules:map-starter:0.1',
+            'ru.auchan.modules:api-starter:0.2'
 }
