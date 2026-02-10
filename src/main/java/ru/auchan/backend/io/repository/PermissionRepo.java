@@ -29,7 +29,7 @@ public interface PermissionRepo extends JpaRepository<PermissionEntity, UUID> {
                        LEFT JOIN {h-schema}system_permission_group spg on spg.alias
                   = substr(sp.system_name, position(spg.alias IN sp.system_name),
                            length(spg.alias))
-              WHERE spg.alias || '_' in (select str || '_' from unnest(string_to_array(:groupList, ',')) as str)
+              WHERE spg.alias IN (:groupList)
                 AND position(spg.alias || '_' IN sp.system_name) = 1""",
       nativeQuery = true)
   List<PermissionEntity> getPermissionListByPermissionGroupList(
