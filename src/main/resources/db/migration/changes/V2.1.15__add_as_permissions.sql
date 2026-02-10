@@ -21,27 +21,27 @@ $$
     BEGIN
         -- create permissions
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), nav_view_as_tab_permission, 'Видимость вкладки Адресное хранение',
+        VALUES (gen_random_uuid(), nav_view_as_tab_permission, 'Видимость вкладки Адресное хранение',
                 'Видимость вкладки Адресное хранение', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, row_status)
         ON CONFLICT DO NOTHING;
 
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), nav_view_printers_as_tab_sub_item_permission, 'Видимость вкладки Принтеры транзитной зоны',
+        VALUES (gen_random_uuid(), nav_view_printers_as_tab_sub_item_permission, 'Видимость вкладки Принтеры транзитной зоны',
                 'Видимость вкладки Принтеры транзитной зоны', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, row_status)
         ON CONFLICT DO NOTHING;
 
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), as_printers_edit_permission, 'Управление принтерами транзитной зоны',
+        VALUES (gen_random_uuid(), as_printers_edit_permission, 'Управление принтерами транзитной зоны',
                 'Управление принтерами транзитной зоны', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, row_status)
         ON CONFLICT DO NOTHING;
 
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), as_accept_pallet_permission, 'Приемка паллет',
+        VALUES (gen_random_uuid(), as_accept_pallet_permission, 'Приемка паллет',
                 'Приемка паллет', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, row_status)
         ON CONFLICT DO NOTHING;
 
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), as_display_goods_permission, 'Выкладка товаров',
+        VALUES (gen_random_uuid(), as_display_goods_permission, 'Выкладка товаров',
                 'Выкладка товаров', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, row_status)
         ON CONFLICT DO NOTHING;
 
