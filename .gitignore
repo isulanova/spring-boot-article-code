@@ -37,3 +37,8 @@ build/
 gradlew
 gradlew.bat
 /qg/
+.gradle/
+
+### AI ###
+CLAUDE.md
+.claude/
