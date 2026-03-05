@@ -12,7 +12,7 @@ $$
         row_status varchar := 'ACTIVE';
     BEGIN
         INSERT INTO system_permission (id, system_name, ui_name, description, record_created, record_updated, record_status)
-        VALUES (uuid_generate_v4(), 'NL_SETTINGS_VIEW', 'Чтение настроек номенклатуры',
+        VALUES (gen_random_uuid(), 'NL_SETTINGS_VIEW', 'Чтение настроек номенклатуры',
                  'Чтение настроек номенклатуры', now, now, 'ACTIVE')
         ON CONFLICT DO NOTHING;
 
