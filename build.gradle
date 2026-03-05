@@ -14,4 +14,6 @@ dependencies {
     //INTERNAL
     implementation 'ru.auchan.modules:map-starter:0.1',
             'ru.auchan.modules:api-starter:0.2'
+
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 }
