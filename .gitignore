@@ -40,5 +40,5 @@ gradlew.bat
 .gradle/
 
 ### AI ###
-.claude/
 CLAUDE.md
+.claude/
