@@ -1,2 +1,0 @@
-include:
-  - remote: '${NEXUS_URL}/repository/ci-cd-templates/${PROJECT_SHORT_NAME}/${CI_CD_STREAM}/Microservice_mr.gitlab-ci.yml'

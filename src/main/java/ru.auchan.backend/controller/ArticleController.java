@@ -1,5 +1,6 @@
 package ru.auchan.backend.controller;
 
+import org.springframework.validation.annotation.Validated;
 import ru.auchan.backend.dto.ArticleRequest;
 import ru.auchan.backend.dto.ArticleResponse;
 import ru.auchan.backend.dto.PageableResponse;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {
@@ -33,7 +35,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public Article create(@RequestBody ArticleRequest request) {
+    public Article create(@Validated @RequestBody ArticleRequest request) {
         return articleService.create(request);
     }
 

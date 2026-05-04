@@ -1,5 +1,6 @@
 package ru.auchan.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import ru.auchan.backend.exception.ResourceNotFoundException;
 import ru.auchan.backend.exception.ResourceAlreadyExistsException;
 import ru.auchan.backend.dto.ArticleRequest;
@@ -16,11 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
     private ArticleResponse mapToResponse(Article article) {
         return ArticleResponse.builder()

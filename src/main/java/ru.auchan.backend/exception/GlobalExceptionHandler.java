@@ -201,7 +201,7 @@ public class GlobalExceptionHandler {
             Exception ex,
             HttpServletRequest request) {
 
-        log.error("Unexpected error occurred: ", ex);  // Полный stack trace
+        log.error("Unexpected error occurred: ", ex);
 
         ErrorResponse error = ErrorResponse.builder()
                 .message("Internal server error: " + ex.getMessage())
