@@ -14,6 +14,11 @@ java {
     }
 }
 
+ext {
+    set('springCloudVersion', '2025.0.2')
+}
+
+
 repositories {
     mavenCentral()
 }
@@ -31,12 +36,6 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
     // Database
-//	implementation 'org.postgresql:postgresql:42.7.5'
-//	classpath("org.flywaydb:flyway-database-postgresql:10.1.0")
-//	implementation 'org.flywaydb:flyway-core:10.15.0'
-//	implementation 'org.flywaydb:flyway-database-postgresql:10.15.0'
-//	implementation 'org.flywaydb:flyway-database-postgresql'
-//	implementation 'org.postgresql:postgresql'
     implementation 'org.flywaydb:flyway-database-postgresql'
     implementation 'org.postgresql:postgresql'
 
@@ -47,11 +46,20 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.36'
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
+    // Feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
     // Testing
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {

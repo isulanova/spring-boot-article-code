@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import ru.auchan.backend.dto.ArticleRequest;
+import ru.auchan.backend.dto.ArticleShort;
 import ru.auchan.backend.dto.ArticleResponse;
 import ru.auchan.backend.dto.PageableResponse;
 import ru.auchan.backend.entity.Article;
@@ -51,7 +50,7 @@ class ArticleServiceTest {
     private ArgumentCaptor<Article> articleCaptor;
 
     private Article article;
-    private ArticleRequest articleRequest;
+    private ArticleShort articleRequest;
 
     @BeforeEach
     void setUp() {
@@ -63,7 +62,7 @@ class ArticleServiceTest {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        articleRequest = ArticleRequest.builder()
+        articleRequest = ArticleShort.builder()
                 .articleCode(1001L)
                 .articleName("Молоко")
                 .build();
@@ -165,7 +164,7 @@ class ArticleServiceTest {
         @Test
         @DisplayName("Успешное обновление статьи")
         void updateArticle_Success() {
-            ArticleRequest updateRequest = ArticleRequest.builder()
+            ArticleShort updateRequest = ArticleShort.builder()
                     .articleCode(1001L)
                     .articleName("Молоко СТМ")
                     .build();

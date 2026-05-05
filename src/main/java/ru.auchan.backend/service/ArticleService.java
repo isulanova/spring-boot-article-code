@@ -1,27 +1,33 @@
 package ru.auchan.backend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import ru.auchan.backend.client.DictionaryClient;
+import ru.auchan.backend.dto.ArticleDictionaryResponse;
+import ru.auchan.backend.exception.DictionaryNotFoundException;
 import ru.auchan.backend.exception.ResourceNotFoundException;
-import ru.auchan.backend.exception.ResourceAlreadyExistsException;
-import ru.auchan.backend.dto.ArticleRequest;
+import ru.auchan.backend.dto.ArticleShort;
 import ru.auchan.backend.dto.ArticleResponse;
 import ru.auchan.backend.dto.PageableResponse;
 import ru.auchan.backend.entity.Article;
 import ru.auchan.backend.repository.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import java.util.List;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+
+    private final DictionaryClient dictionaryClient;
 
     private ArticleResponse mapToResponse(Article article) {
         return ArticleResponse.builder()
@@ -60,23 +66,55 @@ public class ArticleService {
         ));
     }
 
-    public Article create(ArticleRequest request) {
-        if (articleRepository.existsByArticleCode(request.getArticleCode())) {
-            throw new ResourceAlreadyExistsException(
-                    "Article",
-                    "articleCode",
-                    request.getArticleCode()
-            );
-        }
 
-        Article article = Article.builder()
-                .articleCode(request.getArticleCode())
-                .articleName(request.getArticleName())
-                .build();
-        return articleRepository.save(article);
+//    public Article create(ArticleRequest request) {
+//        if (articleRepository.existsByArticleCode(request.getArticleCode())) {
+//            throw new ResourceAlreadyExistsException(
+//                    "Article",
+//                    "articleCode",
+//                    request.getArticleCode()
+//            );
+//        }
+//
+//        Article article = Article.builder()
+//                .articleCode(request.getArticleCode())
+//                .articleName(request.getArticleName())
+//                .build();
+//        return articleRepository.save(article);
+//    }
+
+    public ArticleResponse createArticleFromDictionary(Long code) {
+        try {
+            ResponseEntity<ArticleDictionaryResponse> response = dictionaryClient.getArticleByCode(code);
+
+            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+                throw new ResourceNotFoundException(
+                        "Article",
+                        "articleCode",
+                        code
+                );
+            }
+
+            ArticleDictionaryResponse dictArticle = response.getBody();
+
+            Article article = Article.builder()
+                    .articleCode(dictArticle.getCode())
+                    .articleName(dictArticle.getName())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            Article saved = articleRepository.save(article);
+
+            return mapToResponse(saved);
+        } catch (feign.FeignException.NotFound e) {
+            throw new DictionaryNotFoundException("Article", "articleCode", code);
+        } catch (feign.FeignException e) {
+            throw new RuntimeException("Dictionary service unavailable: " + e.getMessage(), e);
+        }
     }
 
-    public Article update(Long code, ArticleRequest request) {
+    public Article update(Long code, ArticleShort request) {
         Article article = findByCode(code);
         article.setArticleName(request.getArticleName());
         return articleRepository.save(article);

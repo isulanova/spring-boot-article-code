@@ -1,7 +1,8 @@
 package ru.auchan.backend.controller;
 
 import org.springframework.validation.annotation.Validated;
-import ru.auchan.backend.dto.ArticleRequest;
+import ru.auchan.backend.dto.ArticleCreateRequest;
+import ru.auchan.backend.dto.ArticleShort;
 import ru.auchan.backend.dto.ArticleResponse;
 import ru.auchan.backend.dto.PageableResponse;
 import ru.auchan.backend.entity.Article;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/backend/articles")
 public class ArticleController {
 
     @Autowired
@@ -35,12 +36,12 @@ public class ArticleController {
     }
 
     @PostMapping
-    public Article create(@Validated @RequestBody ArticleRequest request) {
-        return articleService.create(request);
+    public ArticleResponse create(@Validated @RequestBody ArticleCreateRequest request) {
+        return articleService.createArticleFromDictionary(request.getArticleCode());
     }
 
     @PutMapping("/{code}")
-    public Article update(@PathVariable Long code, @RequestBody ArticleRequest request) {
+    public Article update(@PathVariable Long code, @RequestBody ArticleShort request) {
         return articleService.update(code, request);
     }
 
