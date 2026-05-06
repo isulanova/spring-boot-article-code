@@ -19,6 +19,7 @@ import ru.auchan.backend.exception.ResourceAlreadyExistsException;
 import ru.auchan.backend.exception.ResourceNotFoundException;
 import ru.auchan.backend.repository.UserRepository;
 import ru.auchan.backend.security.JwtUtil;
+import ru.auchan.backend.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class AuthServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Captor
     private ArgumentCaptor<User> userCaptor;

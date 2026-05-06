@@ -23,6 +23,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.auchan.backend.service.impl.ArticleServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,7 +45,7 @@ class ArticleServiceTest {
     private ArticleRepository articleRepository;
 
     @InjectMocks
-    private ArticleService articleService;
+    private ArticleServiceImpl articleService;
 
     @Captor
     private ArgumentCaptor<Article> articleCaptor;

@@ -1,23 +1,24 @@
 package ru.auchan.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import ru.auchan.backend.dto.ArticleCreateRequest;
 import ru.auchan.backend.dto.ArticleShort;
 import ru.auchan.backend.dto.ArticleResponse;
 import ru.auchan.backend.dto.PageableResponse;
-import ru.auchan.backend.entity.Article;
 import ru.auchan.backend.service.ArticleService;
+import ru.auchan.backend.service.impl.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/backend/articles")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping
     public ResponseEntity<PageableResponse<ArticleResponse>> getAll(
@@ -31,7 +32,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{code}")
-    public Article getByCode(@PathVariable Long code) {
+    public ArticleResponse getByCode(@PathVariable Long code) {
         return articleService.findByCode(code);
     }
 
@@ -41,7 +42,7 @@ public class ArticleController {
     }
 
     @PutMapping("/{code}")
-    public Article update(@PathVariable Long code, @RequestBody ArticleShort request) {
+    public ArticleResponse update(@PathVariable Long code, @RequestBody ArticleShort request) {
         return articleService.update(code, request);
     }
 
