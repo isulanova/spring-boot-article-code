@@ -1,6 +1,7 @@
 package ru.auchan.backend.dto;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleCreateRequest {
+    @Schema(description = "Логин пользователя. Должен быть уникальным", example = "login")
     @NotNull(message = "Article code is required")
     @Min(value = 1, message = "Article code must be positive")
     private Long articleCode;
