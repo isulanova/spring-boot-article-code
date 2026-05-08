@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import ru.auchan.backend.client.DictionaryClient;
 import ru.auchan.backend.dto.*;
 import ru.auchan.backend.exception.DictionaryNotFoundException;
+import ru.auchan.backend.exception.ResourceAlreadyExistsException;
 import ru.auchan.backend.exception.ResourceNotFoundException;
 import ru.auchan.backend.entity.Article;
 import ru.auchan.backend.repository.ArticleRepository;
@@ -66,9 +67,19 @@ public class ArticleServiceImpl implements ArticleService {
 //    }
 
     public ArticleResponse createArticleFromDictionary(Long code) {
+        if (articleRepository.existsByArticleCode(code)) {
+            throw new ResourceAlreadyExistsException(
+                    "Article",
+                    "articleCode",
+                    code
+            );
+        }
+
         try {
             ResponseEntity<ArticleDictionaryResponse> response = dictionaryClient.getArticleByCode(code);
-
+            if (response == null) {
+                throw new RuntimeException("Response from dictionary client is null");
+            }
             if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
                 throw new ResourceNotFoundException(
                         "Article",

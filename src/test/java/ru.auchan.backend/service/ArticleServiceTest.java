@@ -2,13 +2,13 @@ package ru.auchan.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import ru.auchan.backend.dto.ArticleShort;
-import ru.auchan.backend.dto.ArticleResponse;
-import ru.auchan.backend.dto.PageableResponse;
+import ru.auchan.backend.client.DictionaryClient;
+import ru.auchan.backend.dto.*;
 import ru.auchan.backend.entity.Article;
 import ru.auchan.backend.exception.ResourceAlreadyExistsException;
 import ru.auchan.backend.exception.ResourceNotFoundException;
@@ -40,6 +40,12 @@ class ArticleServiceTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Mock
+    private DictionaryClient dictionaryClient;
+
+    @Mock
+    private ArticleMapper articleMapper;
 
     @Mock
     private ArticleRepository articleRepository;
@@ -76,19 +82,38 @@ class ArticleServiceTest {
         @Test
         @DisplayName("Успешное создание статьи")
         void createArticle_Success() {
+            ArticleDictionaryResponse dictionaryArticle = ArticleDictionaryResponse.builder()
+                    .code(1001L)
+                    .name("Молоко")
+                    .build();
+
+            ResponseEntity<ArticleDictionaryResponse> responseEntity = ResponseEntity.ok(dictionaryArticle);
+
+            when(dictionaryClient.getArticleByCode(1001L)).thenReturn(responseEntity);
+
             when(articleRepository.existsByArticleCode(1001L)).thenReturn(false);
             when(articleRepository.save(any(Article.class))).thenReturn(article);
 
-            Article response = articleService.create(articleRequest);
+            ArticleResponse expectedResponse = ArticleResponse.builder()
+                    .id(1L)
+                    .articleCode(1001L)
+                    .articleName("Молоко")
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            when(articleMapper.toResponse(any(Article.class))).thenReturn(expectedResponse);
+
+            ArticleResponse response = articleService.createArticleFromDictionary(articleRequest.getArticleCode());
 
             assertThat(response).isNotNull();
             assertThat(response.getArticleCode()).isEqualTo(1001L);
             assertThat(response.getArticleName()).isEqualTo("Молоко");
 
+            verify(dictionaryClient, times(1)).getArticleByCode(1001L);
             verify(articleRepository, times(1)).existsByArticleCode(1001L);
             verify(articleRepository, times(1)).save(any(Article.class));
-
-            verifyNoMoreInteractions(articleRepository);
+            verify(articleMapper, times(1)).toResponse(any(Article.class));
         }
 
         @Test
@@ -96,7 +121,7 @@ class ArticleServiceTest {
         void createArticle_AlreadyExists_ThrowsException() {
             when(articleRepository.existsByArticleCode(1001L)).thenReturn(true);
 
-            assertThatThrownBy(() -> articleService.create(articleRequest))
+            assertThatThrownBy(() -> articleService.createArticleFromDictionary(articleRequest.getArticleCode()))
                     .isInstanceOf(ResourceAlreadyExistsException.class)
                     .hasMessageContaining("already exists");
 
@@ -106,10 +131,29 @@ class ArticleServiceTest {
         @Test
         @DisplayName("Создание статьи с захватом аргумента (используя ArgumentCaptor)")
         void createArticle_CapturesArticleArgument() {
+            ArticleDictionaryResponse dictionaryArticle = ArticleDictionaryResponse.builder()
+                    .code(1001L)
+                    .name("Молоко")
+                    .build();
+
+            ResponseEntity<ArticleDictionaryResponse> responseEntity = ResponseEntity.ok(dictionaryArticle);
+
+            when(dictionaryClient.getArticleByCode(1001L)).thenReturn(responseEntity);
+
             when(articleRepository.existsByArticleCode(1001L)).thenReturn(false);
             when(articleRepository.save(any(Article.class))).thenReturn(article);
 
-            articleService.create(articleRequest);
+            ArticleResponse expectedResponse = ArticleResponse.builder()
+                    .id(1L)
+                    .articleCode(1001L)
+                    .articleName("Молоко")
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            when(articleMapper.toResponse(any(Article.class))).thenReturn(expectedResponse);
+
+            articleService.createArticleFromDictionary(articleRequest.getArticleCode());
 
             verify(articleRepository).save(articleCaptor.capture());
             Article capturedArticle = articleCaptor.getValue();
@@ -128,7 +172,17 @@ class ArticleServiceTest {
         void getArticle_Success() {
             when(articleRepository.findByArticleCode(1001L)).thenReturn(Optional.of(article));
 
-            Article response = articleService.findByCode(1001L);
+            ArticleResponse expectedResponse = ArticleResponse.builder()
+                    .id(1L)
+                    .articleCode(1001L)
+                    .articleName("Молоко")
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            when(articleMapper.toResponse(any(Article.class))).thenReturn(expectedResponse);
+
+            ArticleResponse response = articleService.findByCode(1001L);
 
             assertThat(response).isNotNull();
             assertThat(response.getArticleCode()).isEqualTo(1001L);
@@ -170,10 +224,20 @@ class ArticleServiceTest {
                     .articleName("Молоко СТМ")
                     .build();
 
+            ArticleResponse expectedResponse = ArticleResponse.builder()
+                    .id(1L)
+                    .articleCode(1001L)
+                    .articleName("Молоко СТМ")
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            when(articleMapper.toResponse(any(Article.class))).thenReturn(expectedResponse);
+
             when(articleRepository.findByArticleCode(1001L)).thenReturn(Optional.of(article));
             when(articleRepository.save(any(Article.class))).thenReturn(article);
 
-            Article response = articleService.update(1001L, updateRequest);
+            ArticleResponse response = articleService.update(1001L, updateRequest);
 
             assertThat(response).isNotNull();
             assertThat(response.getArticleName()).isEqualTo("Молоко СТМ");
@@ -216,6 +280,8 @@ class ArticleServiceTest {
             verify(articleRepository, times(1)).deleteByArticleCode(anyLong());
         }
     }
+
+
     @Test
     @DisplayName("получение всех статей с пагинацией - есть результаты")
     void findAll_ShouldReturnPageableResponse() {
@@ -240,6 +306,30 @@ class ArticleServiceTest {
         Page<Article> articlePage = new PageImpl<>(articles, pageable, 2);
 
         when(articleRepository.findAll(pageable)).thenReturn(articlePage);
+
+        List<ArticleResponse> expectedResponses = List.of(
+                ArticleResponse.builder()
+                        .id(1L)
+                        .articleCode(1001L)
+                        .articleName("Молоко")
+                        .build(),
+                ArticleResponse.builder()
+                        .id(2L)
+                        .articleCode(1002L)
+                        .articleName("Молоко СТМ")
+                        .build()
+        );
+
+        PageableResponse<ArticleResponse> expectedPageableResponse = PageableResponse.<ArticleResponse>builder()
+                .content(expectedResponses)
+                .pageNumber(page)
+                .pageSize(size)
+                .totalElements(2)
+                .totalPages(1)
+                .last(true)
+                .build();
+
+        when(articleMapper.toPageableResponse(articlePage)).thenReturn(expectedPageableResponse);
 
         PageableResponse<ArticleResponse> result = articleService.findAll(page, size, sortBy, sortDirection);
 
@@ -269,6 +359,18 @@ class ArticleServiceTest {
         Page<Article> emptyPage = new PageImpl<>(List.of(), pageable, 0);
 
         when(articleRepository.findAll(pageable)).thenReturn(emptyPage);
+
+        List<ArticleResponse> expectedResponses = List.of();
+        PageableResponse<ArticleResponse> expectedPageableResponse = PageableResponse.<ArticleResponse>builder()
+                .content(expectedResponses)
+                .pageNumber(page)
+                .pageSize(size)
+                .totalElements(0)
+                .totalPages(0)
+                .last(true)
+                .build();
+
+        when(articleMapper.toPageableResponse(emptyPage)).thenReturn(expectedPageableResponse);
 
         PageableResponse<ArticleResponse> result = articleService.findAll(page, size, sortBy, sortDirection);
 

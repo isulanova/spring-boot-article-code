@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.auchan.backend.dto.AuthRequest;
 import ru.auchan.backend.dto.AuthResponse;
+import ru.auchan.backend.dto.UserMapper;
 import ru.auchan.backend.entity.User;
 import ru.auchan.backend.exception.InvalidCredentialsException;
 import ru.auchan.backend.exception.ResourceAlreadyExistsException;
@@ -38,6 +39,9 @@ public class AuthServiceTest {
 
     @Mock
     private JwtUtil jwtUtil;
+
+    @Mock
+    private UserMapper userMapper;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -75,7 +79,14 @@ public class AuthServiceTest {
             when(userRepository.findByLogin("login")).thenReturn(Optional.empty());
             when(userRepository.save(any(User.class))).thenReturn(user);
 
-            User response = userService.register(authRequest.getLogin(), authRequest.getPassword());
+            AuthResponse expectedResponse = AuthResponse.builder()
+                    .login(authRequest.getLogin())
+                    .token(null)
+                    .build();
+
+            when(userMapper.toResponse(any(User.class))).thenReturn(expectedResponse);
+
+            AuthResponse response = userService.register(authRequest.getLogin(), authRequest.getPassword());
 
             assertThat(response).isNotNull();
             assertThat(response.getLogin()).isEqualTo("login");
